@@ -49,70 +49,120 @@
                 "endIpAddress": "255.255.255.255",
                 "startIpAddress": "0.0.0.0"
             }
-        }
-        // {
-        //     "name": "[concat(parameters('workspaceName'), '/synapse-test-actions-WorkspaceDefaultSqlServer')]",
-        //     "type": "Microsoft.Synapse/workspaces/linkedServices",
-        //     "apiVersion": "2019-06-01-preview",
-        //     "properties": {
-        //         "parameters": {
-        //             "DBName": {
-        //                 "type": "String"
-        //             }
-        //         },
-        //         "annotations": [],
-        //         "type": "AzureSqlDW",
-        //         "typeProperties": {
-        //             "connectionString": "[parameters('synapse-test-actions-WorkspaceDefaultSqlServer_connectionString')]"
-        //         },
-        //         "connectVia": {
-        //             "referenceName": "AutoResolveIntegrationRuntime",
-        //             "type": "IntegrationRuntimeReference"
-        //         }
-        //     },
-        //     "dependsOn": [
-        //         "[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
-        //     ]
-        // },
-        // {
-        //     "name": "[concat(parameters('workspaceName'), '/synapse-test-actions-WorkspaceDefaultStorage')]",
-        //     "type": "Microsoft.Synapse/workspaces/linkedServices",
-        //     "apiVersion": "2019-06-01-preview",
-        //     "properties": {
-        //         "annotations": [],
-        //         "type": "AzureBlobFS",
-        //         "typeProperties": {
-        //             "url": "[parameters('synapse-test-actions-WorkspaceDefaultStorage_properties_typeProperties_url')]"
-        //         },
-        //         "connectVia": {
-        //             "referenceName": "AutoResolveIntegrationRuntime",
-        //             "type": "IntegrationRuntimeReference"
-        //         }
-        //     },
-        //     "dependsOn": [
-        //         "[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
-        //     ]
-        // },
-        // {
-        //     "name": "[concat(parameters('workspaceName'), '/AutoResolveIntegrationRuntime')]",
-        //     "type": "Microsoft.Synapse/workspaces/integrationRuntimes",
-        //     "apiVersion": "2019-06-01-preview",
-        //     "properties": {
-        //         "type": "Managed",
-        //         "typeProperties": {
-        //             "computeProperties": {
-        //                 "location": "AutoResolve",
-        //                 "dataFlowProperties": {
-        //                     "computeType": "General",
-        //                     "coreCount": 8,
-        //                     "timeToLive": 0
-        //                 }
-        //             }
-        //         }
-        //     },
-        //     "dependsOn": [
-        //         "[variables('workspaceId')]"
-        //     ]
-        // }
+        },
+        {
+            "name": "[concat(parameters('workspaceName'), '/nb-hello-world')]",
+            "type": "Microsoft.Synapse/workspaces/notebooks",
+            "apiVersion": "2019-06-01-preview",
+            "properties": {
+                "nbformat": 4,
+                "nbformat_minor": 2,
+                "bigDataPool": {
+                    "referenceName": "spsmall",
+                    "type": "BigDataPoolReference"
+                },
+                "sessionProperties": {
+                    "driverMemory": "28g",
+                    "driverCores": 4,
+                    "executorMemory": "28g",
+                    "executorCores": 4,
+                    "numExecutors": 2,
+                    "conf": {
+                        "spark.dynamicAllocation.enabled": "false",
+                        "spark.dynamicAllocation.minExecutors": "2",
+                        "spark.dynamicAllocation.maxExecutors": "2"
+                    }
+                },
+                "metadata": {
+                    "saveOutput": true,
+                    "synapse_widget": {
+                        "version": "0.1",
+                        "state": {}
+                    },
+                    "kernelspec": {
+                        "name": "synapse_spark",
+                        "display_name": "Synapse Spark"
+                    },
+                    "language_info": {
+                        "name": "scala"
+                    }
+                },
+                "cells": [
+                    {
+                        "cell_type": "code",
+                        "metadata": {},
+                        "source": [
+                            "println(\"hello world!\")"
+                        ],
+                        "outputs": [],
+                        "execution_count": null
+                    }
+                ]
+            },
+            "dependsOn": []
+            // {
+            //     "name": "[concat(parameters('workspaceName'), '/synapse-test-actions-WorkspaceDefaultSqlServer')]",
+            //     "type": "Microsoft.Synapse/workspaces/linkedServices",
+            //     "apiVersion": "2019-06-01-preview",
+            //     "properties": {
+            //         "parameters": {
+            //             "DBName": {
+            //                 "type": "String"
+            //             }
+            //         },
+            //         "annotations": [],
+            //         "type": "AzureSqlDW",
+            //         "typeProperties": {
+            //             "connectionString": "[parameters('synapse-test-actions-WorkspaceDefaultSqlServer_connectionString')]"
+            //         },
+            //         "connectVia": {
+            //             "referenceName": "AutoResolveIntegrationRuntime",
+            //             "type": "IntegrationRuntimeReference"
+            //         }
+            //     },
+            //     "dependsOn": [
+            //         "[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+            //     ]
+            // },
+            // {
+            //     "name": "[concat(parameters('workspaceName'), '/synapse-test-actions-WorkspaceDefaultStorage')]",
+            //     "type": "Microsoft.Synapse/workspaces/linkedServices",
+            //     "apiVersion": "2019-06-01-preview",
+            //     "properties": {
+            //         "annotations": [],
+            //         "type": "AzureBlobFS",
+            //         "typeProperties": {
+            //             "url": "[parameters('synapse-test-actions-WorkspaceDefaultStorage_properties_typeProperties_url')]"
+            //         },
+            //         "connectVia": {
+            //             "referenceName": "AutoResolveIntegrationRuntime",
+            //             "type": "IntegrationRuntimeReference"
+            //         }
+            //     },
+            //     "dependsOn": [
+            //         "[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+            //     ]
+            // },
+            // {
+            //     "name": "[concat(parameters('workspaceName'), '/AutoResolveIntegrationRuntime')]",
+            //     "type": "Microsoft.Synapse/workspaces/integrationRuntimes",
+            //     "apiVersion": "2019-06-01-preview",
+            //     "properties": {
+            //         "type": "Managed",
+            //         "typeProperties": {
+            //             "computeProperties": {
+            //                 "location": "AutoResolve",
+            //                 "dataFlowProperties": {
+            //                     "computeType": "General",
+            //                     "coreCount": 8,
+            //                     "timeToLive": 0
+            //                 }
+            //             }
+            //         }
+            //     },
+            //     "dependsOn": [
+            //         "[variables('workspaceId')]"
+            //     ]
+            // }
     ]
 }

@@ -19,7 +19,7 @@ jobs:
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
-        template: ./Storage/azuredeploy-storage.json
+        template: ./Storage/template-storage.json
         parameters: ./Storage/parameters-storage.json
       
       # Deploy ARM template for KeyVault
