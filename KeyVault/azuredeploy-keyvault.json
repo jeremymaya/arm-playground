@@ -10,13 +10,13 @@
             }
         },
         "tenantId": {
-            "type": "string",
+            "type": "securestring",
             "metadata": {
                 "description": "Tenant Id of "
             }
         },
         "objectIdJk": {
-            "type": "string",
+            "type": "securestring",
             "metadata": {
                 "description": "Object Id of "
             }
