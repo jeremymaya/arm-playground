@@ -14,6 +14,10 @@
         "synapse-test-actions-WorkspaceDefaultStorage_properties_typeProperties_url": {
             "type": "string",
             "defaultValue": "https://sttestactions.dfs.core.windows.net"
+        },
+        "ls_kv_actions_usea_properties_typeProperties_baseUrl": {
+            "type": "string",
+            "defaultValue": "https://sttestactions.dfs.core.windows.net"
         }
     },
     "variables": {
@@ -78,6 +82,19 @@
                             "timeToLive": 0
                         }
                     }
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('workspaceName'), '/ls_kv_actions_usea')]",
+            "type": "Microsoft.Synapse/workspaces/linkedServices",
+            "apiVersion": "2019-06-01-preview",
+            "properties": {
+                "annotations": [],
+                "type": "AzureKeyVault",
+                "typeProperties": {
+                    "baseUrl": "[parameters('ls_kv_actions_usea_properties_typeProperties_baseUrl')]"
                 }
             },
             "dependsOn": []
