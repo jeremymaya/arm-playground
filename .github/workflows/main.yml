@@ -29,4 +29,4 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
         template: ./KeyVault/azuredeploy-keyvault.json
-        parameters: tenantId=${{ secrets.AZURE_TENANTID }};objectIdJk=${{ secrets.AZURE_OBJECTID_JK }}
+        parameters: ./KeyVault/parameters-keyvault.json
