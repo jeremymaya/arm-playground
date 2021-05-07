@@ -57,22 +57,6 @@
             "properties": {
                 "nbformat": 4,
                 "nbformat_minor": 2,
-                "bigDataPool": {
-                    "referenceName": "spsmall",
-                    "type": "BigDataPoolReference"
-                },
-                "sessionProperties": {
-                    "driverMemory": "28g",
-                    "driverCores": 4,
-                    "executorMemory": "28g",
-                    "executorCores": 4,
-                    "numExecutors": 2,
-                    "conf": {
-                        "spark.dynamicAllocation.enabled": "false",
-                        "spark.dynamicAllocation.minExecutors": "2",
-                        "spark.dynamicAllocation.maxExecutors": "2"
-                    }
-                },
                 "metadata": {
                     "saveOutput": true,
                     "synapse_widget": {
