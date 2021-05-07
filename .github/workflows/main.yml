@@ -32,26 +32,26 @@ jobs:
     #     parameters: ./KeyVault/parameters-keyvault.json
 
       # Deploy ARM template for Synapse
-    - name: Run ARM deploy for Synapse
-      uses: azure/arm-deploy@v1
-      with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ secrets.AZURE_RG }}
-        template: ./Synapse/Workspace/template-workspace.json
-        parameters: ./Synapse/Workspace/parameters-workspace.json
+    # - name: Run ARM deploy for Synapse
+    #   uses: azure/arm-deploy@v1
+    #   with:
+    #     subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+    #     resourceGroupName: ${{ secrets.AZURE_RG }}
+    #     template: ./Synapse/Workspace/template-workspace.json
+    #     parameters: ./Synapse/Workspace/parameters-workspace.json
 
       # Deploy Artifacts Synapse Workspace 
-    # - name: Deploy artifacts for Synapse Workspace
-    #   uses: azure/synapse-workspace-deployment@v0.1
-    #   with:
-    #     TargetWorkspaceName: synapse-test-actions
-    #     TemplateFile: ./Synapse/Artifact/template-artifact.json
-    #     ParametersFile: ./Synapse/Artifact/parameters-artifact.json
-    #     environment: Azure Public
-    #     resourceGroup: ${{ secrets.AZURE_RG }}
-    #     clientId: ${{ secrets.AZURE_CLIENTID }}
-    #     clientSecret: ${{ secrets.AZURE_CLIENTSECRET }}
-    #     subscriptionId: ${{ secrets.AZURE_SUBID }}
-    #     tenantId: ${{ secrets.AZURE_TENANTID }}
-    #     activeDirectoryEndpointUrl: ${{ secrets.AZURE_ADE }}
-    #     resourceManagerEndpointUrl: ${{ secrets.AZURE_RME }}
+    - name: Deploy artifacts for Synapse Workspace
+      uses: azure/synapse-workspace-deployment@v0.1
+      with:
+        TargetWorkspaceName: synapse-test-actions
+        TemplateFile: ./Synapse/Artifact/template-artifact.json
+        ParametersFile: ./Synapse/Artifact/parameters-artifact.json
+        environment: Azure Public
+        resourceGroup: ${{ secrets.AZURE_RG }}
+        clientId: ${{ secrets.AZURE_CLIENTID }}
+        clientSecret: ${{ secrets.AZURE_CLIENTSECRET }}
+        subscriptionId: ${{ secrets.AZURE_SUBID }}
+        tenantId: ${{ secrets.AZURE_TENANTID }}
+        activeDirectoryEndpointUrl: ${{ secrets.AZURE_ADE }}
+        resourceManagerEndpointUrl: ${{ secrets.AZURE_RME }}
