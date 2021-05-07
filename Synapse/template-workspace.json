@@ -6,6 +6,13 @@
             "type": "string",
             "defaultValue": "synapse-test-actions"
         },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        },
         "synapse-test-actions-WorkspaceDefaultSqlServer_connectionString": {
             "type": "secureString"
         },
@@ -23,7 +30,7 @@
             "type": "Microsoft.Synapse/workspaces",
             "apiVersion": "2019-06-01-preview",
             "tags": {},
-            "location": "string",
+            "location": "[parameters('location')]",
             "properties": {
                 "defaultDataLakeStorage": {
                     "accountUrl": "[parameters('synapse-test-actions-WorkspaceDefaultStorage_properties_typeProperties_url')]",
