@@ -42,7 +42,7 @@ jobs:
 
       # Deploy Artifacts Synapse Workspace 
     - name: Deploy artifacts for Synapse Workspace
-      uses: Azure/synapse-workspace-deployment
+      uses: Azure/synapse-workspace-deployment@v1
       with:
         TargetWorkspaceName: 'synapse-test-actions'
         TemplateFile: './Synapse/Artifact/template-artifact.json'
