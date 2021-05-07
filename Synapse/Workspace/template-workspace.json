@@ -22,7 +22,7 @@
         {
             "name": "[parameters('workspaceName')]",
             "type": "Microsoft.Synapse/workspaces",
-            "apiVersion": "2019-06-01-preview",
+            "apiVersion": "2020-12-01",
             "tags": {},
             "location": "[parameters('location')]",
             "properties": {
@@ -38,12 +38,12 @@
         {
             "name": "[concat(parameters('workspaceName'), '/AutoResolveIntegrationRuntime')]",
             "type": "Microsoft.Synapse/workspaces/integrationRuntimes",
-            "apiVersion": "2019-06-01-preview",
+            "apiVersion": "2020-12-01",
             "properties": {
                 "description": "string",
                 "type": "Managed",
                 "typeProperties": {
-                     "computeProperties": {
+                    "computeProperties": {
                         "location": "AutoResolve",
                         "dataFlowProperties": {
                             "computeType": "General",
@@ -51,6 +51,34 @@
                             "timeToLive": 0
                         }
                     }
+                }
+            }
+        },
+        {
+            "name": "[concat(parameters('workspaceName'), '/spsmall')]",
+            "type": "Microsoft.Synapse/workspaces/bigDataPools",
+            "apiVersion": "2020-12-01",
+            "tags": {},
+            "location": "[parameters('location')]",
+            "properties": {
+                "sparkVersion": "2.4",
+                "nodeCount": 10,
+                "nodeSize": "Small",
+                "nodeSizeFamily": "MemoryOptimized",
+                "autoScale": {
+                    "enabled": true,
+                    "minNodeCount": 3,
+                    "maxNodeCount": 10
+                },
+                "autoPause": {
+                    "enabled": true,
+                    "delayInMinutes": 15
+                },
+                "isComputeIsolationEnabled": false,
+                "sessionLevelPackagesEnabled": false,
+                "cacheSize": 0,
+                "dynamicExecutorAllocation": {
+                    "enabled": true
                 }
             }
         },

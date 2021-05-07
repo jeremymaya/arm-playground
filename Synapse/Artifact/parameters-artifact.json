@@ -10,6 +10,12 @@
 		},
 		"synapse-test-actions-WorkspaceDefaultStorage_properties_typeProperties_url": {
 			"value": "https://sttestactions.dfs.core.windows.net"
+		},
+		"ls_kv_actions_usea_properties_typeProperties_baseUrl": {
+			"value": "https://kv-test-actions.vault.azure.net/"
+		},
+		"ls_cosmosdb_devops_usea_properties_typeProperties_connectionString_secretName": {
+			"value": "cosmosdb-test-devops-primary-connection"
 		}
 	}
 }

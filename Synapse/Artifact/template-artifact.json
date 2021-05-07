@@ -14,6 +14,14 @@
         "synapse-test-actions-WorkspaceDefaultStorage_properties_typeProperties_url": {
             "type": "string",
             "defaultValue": "https://sttestactions.dfs.core.windows.net"
+        },
+        "ls_kv_actions_usea_properties_typeProperties_baseUrl": {
+            "type": "string",
+            "defaultValue": "https://sttestactions.dfs.core.windows.net"
+        },
+        "ls_cosmosdb_devops_usea_properties_typeProperties_connectionString_secretName": {
+            "type": "string",
+            "defaultValue": "cosmosdb-test-devops-primary-connection"
         }
     },
     "variables": {
@@ -79,6 +87,113 @@
                         }
                     }
                 }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('workspaceName'), '/ls_kv_actions_usea')]",
+            "type": "Microsoft.Synapse/workspaces/linkedServices",
+            "apiVersion": "2019-06-01-preview",
+            "properties": {
+                "annotations": [],
+                "type": "AzureKeyVault",
+                "typeProperties": {
+                    "baseUrl": "[parameters('ls_kv_actions_usea_properties_typeProperties_baseUrl')]"
+                }
+            },
+            "dependsOn": []
+        },
+        {
+            "name": "[concat(parameters('workspaceName'), '/ls_cosmosdb_devops_usea')]",
+            "type": "Microsoft.Synapse/workspaces/linkedServices",
+            "apiVersion": "2019-06-01-preview",
+            "properties": {
+                "annotations": [],
+                "type": "CosmosDb",
+                "typeProperties": {
+                    "connectionString": {
+                        "type": "AzureKeyVaultSecret",
+                        "store": {
+                            "referenceName": "ls_kv_actions_usea",
+                            "type": "LinkedServiceReference"
+                        },
+                        "secretName": "[parameters('ls_cosmosdb_devops_usea_properties_typeProperties_connectionString_secretName')]"
+                    }
+                },
+                "connectVia": {
+                    "referenceName": "AutoResolveIntegrationRuntime",
+                    "type": "IntegrationRuntimeReference"
+                }
+            },
+            "dependsOn": [
+                "[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]",
+                "[concat(variables('workspaceId'), '/linkedServices/ls_kv_actions_usea')]"
+            ]
+        },
+        {
+            "name": "[concat(parameters('workspaceName'), '/nb-hello-world')]",
+            "type": "Microsoft.Synapse/workspaces/notebooks",
+            "apiVersion": "2019-06-01-preview",
+            "properties": {
+                "nbformat": 4,
+                "nbformat_minor": 2,
+                "bigDataPool": {
+                    "referenceName": "spsmall",
+                    "type": "BigDataPoolReference"
+                },
+                "sessionProperties": {
+                    "driverMemory": "28g",
+                    "driverCores": 4,
+                    "executorMemory": "28g",
+                    "executorCores": 4,
+                    "numExecutors": 2,
+                    "conf": {
+                        "spark.dynamicAllocation.enabled": "false",
+                        "spark.dynamicAllocation.minExecutors": "2",
+                        "spark.dynamicAllocation.maxExecutors": "2"
+                    }
+                },
+                "metadata": {
+                    "saveOutput": true,
+                    "synapse_widget": {
+                        "version": "0.1",
+                        "state": {}
+                    },
+                    "kernelspec": {
+                        "name": "synapse_spark",
+                        "display_name": "Synapse Spark"
+                    },
+                    "language_info": {
+                        "name": "scala"
+                    },
+                    "a365ComputeOptions": {
+                        "id": "/subscriptions/f52fc92a-79db-44fb-850e-cb974fbede99/resourceGroups/synapse-via-actions/providers/Microsoft.Synapse/workspaces/synapse-test-actions/bigDataPools/spsmall",
+                        "name": "spsmall",
+                        "type": "Spark",
+                        "endpoint": "https://synapse-test-actions.dev.azuresynapse.net/livyApi/versions/2020-12-01/sparkPools/spsmall",
+                        "auth": {
+                            "type": "AAD",
+                            "authResource": "https://dev.azuresynapse.net"
+                        },
+                        "sparkVersion": "2.4",
+                        "nodeCount": 10,
+                        "cores": 4,
+                        "memory": 28,
+                        "automaticScaleJobs": false
+                    },
+                    "sessionKeepAliveTimeout": 30
+                },
+                "cells": [
+                    {
+                        "cell_type": "code",
+                        "metadata": {},
+                        "source": [
+                            "println(\"hello world!\")"
+                        ],
+                        "outputs": [],
+                        "execution_count": null
+                    }
+                ]
             },
             "dependsOn": []
         }
