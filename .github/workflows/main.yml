@@ -20,7 +20,7 @@ jobs:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
         template: ./Storage/azuredeploy-storage.json
-        parameters: storageAccountType=Standard_LRS
+        parameters: ./Storage/parameters-storage.json
       
       # Deploy ARM template for KeyVault
     - name: Run ARM deploy for KeyVault

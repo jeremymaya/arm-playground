@@ -6,10 +6,10 @@
             "value": "eastus"
         },
         "tenantId": {
-            "value": "tenantId=${{ secrets.AZURE_TENANTID }}"
+            "value": "${{ secrets.AZURE_TENANTID }}"
         },
         "objectIdJk": {
-            "value": "objectIdJk=${{ secrets.AZURE_OBJECTID_JK }}"
+            "value": "${{ secrets.AZURE_OBJECTID_JK }}"
         }
     }
 }
