@@ -49,42 +49,42 @@
                 "endIpAddress": "255.255.255.255",
                 "startIpAddress": "0.0.0.0"
             }
-        },
-        {
-            "name": "[concat(parameters('workspaceName'), '/nb-hello-world')]",
-            "type": "Microsoft.Synapse/workspaces/notebooks",
-            "apiVersion": "2019-06-01-preview",
-            "properties": {
-                "nbformat": 4,
-                "nbformat_minor": 2,
-                "metadata": {
-                    "saveOutput": true,
-                    "synapse_widget": {
-                        "version": "0.1",
-                        "state": {}
-                    },
-                    "kernelspec": {
-                        "name": "synapse_spark",
-                        "display_name": "Synapse Spark"
-                    },
-                    "language_info": {
-                        "name": "scala"
-                    }
-                },
-                "cells": [
-                    {
-                        "cell_type": "code",
-                        "metadata": {},
-                        "source": [
-                            "println(\"hello world!\")"
-                        ],
-                        "outputs": [],
-                        "execution_count": null
-                    }
-                ]
-            },
-            "dependsOn": []
         }
+        // {
+        //     "name": "[concat(parameters('workspaceName'), '/nb-hello-world')]",
+        //     "type": "Microsoft.Synapse/workspaces/notebooks",
+        //     "apiVersion": "2019-06-01-preview",
+        //     "properties": {
+        //         "nbformat": 4,
+        //         "nbformat_minor": 2,
+        //         "metadata": {
+        //             "saveOutput": true,
+        //             "synapse_widget": {
+        //                 "version": "0.1",
+        //                 "state": {}
+        //             },
+        //             "kernelspec": {
+        //                 "name": "synapse_spark",
+        //                 "display_name": "Synapse Spark"
+        //             },
+        //             "language_info": {
+        //                 "name": "scala"
+        //             }
+        //         },
+        //         "cells": [
+        //             {
+        //                 "cell_type": "code",
+        //                 "metadata": {},
+        //                 "source": [
+        //                     "println(\"hello world!\")"
+        //                 ],
+        //                 "outputs": [],
+        //                 "execution_count": null
+        //             }
+        //         ]
+        //     },
+        //     "dependsOn": []
+        // }
         // {
         //     "name": "[concat(parameters('workspaceName'), '/synapse-test-actions-WorkspaceDefaultSqlServer')]",
         //     "type": "Microsoft.Synapse/workspaces/linkedServices",
