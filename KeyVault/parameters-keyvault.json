@@ -6,10 +6,10 @@
             "value": "eastus"
         },
         "tenantId": {
-            "value": "${{ secrets.AZURE_TENANTID }}"
+            "value": "3c8f608e-b2b9-415c-926a-d6cb1cfe5d78"
         },
         "objectIdJk": {
-            "value": "${{ secrets.AZURE_OBJECTID_JK }}"
+            "value": "14513cc2-ed3d-4d51-808f-f8c5683df133"
         }
     }
 }
