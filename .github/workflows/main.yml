@@ -30,3 +30,12 @@ jobs:
         resourceGroupName: ${{ secrets.AZURE_RG }}
         template: ./KeyVault/azuredeploy-keyvault.json
         parameters: ./KeyVault/parameters-keyvault.json
+
+      # Deploy ARM template for Synapse
+    - name: Run ARM deploy for Synapse
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ./Synapse/template-workspace.json
+        parameters: ./Synapse/parameters-workspace.json

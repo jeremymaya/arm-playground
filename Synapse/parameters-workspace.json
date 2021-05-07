@@ -1,0 +1,18 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"value": "synapse-test-actions"
+		},
+		"synapse-test-actions-WorkspaceDefaultSqlServer_connectionString": {
+			"value": ""
+		},
+		"synapse-test-actions-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"value": "https://sttestactions.dfs.core.windows.net"
+		},
+		"ls_kv_actions_usea_properties_typeProperties_baseUrl": {
+			"value": "https://kv-test-actions.vault.azure.net/"
+		}
+	}
+}
