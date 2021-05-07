@@ -46,13 +46,13 @@ jobs:
     #     parameters: ./Storage/parameters-storage.json
       
       # Deploy ARM template for Synapse
-    # - name: Run ARM deploy for Synapse
-    #   uses: azure/arm-deploy@v1
-    #   with:
-    #     subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-    #     resourceGroupName: ${{ secrets.AZURE_RG }}
-    #     template: ./Synapse/Workspace/template-workspace.json
-    #     parameters: ./Synapse/Workspace/parameters-workspace.json
+    - name: Run ARM deploy for Synapse
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ./Synapse/Workspace/template-workspace.json
+        parameters: ./Synapse/Workspace/parameters-workspace.json
 
       # Deploy Artifacts Synapse Workspace 
     - name: Run Synapse Workspace artifacts deploy
