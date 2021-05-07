@@ -114,7 +114,7 @@
                     "connectionString": {
                         "type": "AzureKeyVaultSecret",
                         "store": {
-                            "referenceName": "ls_kv_devops_usea",
+                            "referenceName": "ls_kv_actions_usea",
                             "type": "LinkedServiceReference"
                         },
                         "secretName": "[parameters('ls_cosmosdb_devops_usea_properties_typeProperties_connectionString_secretName')]"
