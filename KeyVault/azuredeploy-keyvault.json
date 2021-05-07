@@ -1,97 +1,88 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "location": {
-      "type": "string",
-      "defaultValue": "[resourceGroup().location]",
-      "metadata": {
-        "description": "Location for all resources."
-      }
-    },
-    "tenantId": {
-      "type": "string",
-      "metadata": {
-        "description": "Tenant Id of "
-      }
-    },
-    "objectIdJk": {
-      "type": "string",
-      "metadata": {
-        "description": "Object Id of "
-      }
-    }
-  },
-  "resources": [
-    {
-      "name": "kv-test-actions",
-      "type": "Microsoft.KeyVault/vaults",
-      "apiVersion": "2019-09-01",
-      "location": "[parameters('location')]",
-      "tags": {},
-      "properties": {
-        "tenantId": "[parameters('tenantId')]",
-        "sku": {
-          "family": "A",
-          "name": "Standard"
-        },
-        "accessPolicies": [
-          {
-            "tenantId": "[parameters('tenantId')]",
-            "objectId": "[parameters('objectIdJk')]",
-            "permissions": {
-              "keys": [
-                "Get",
-                "List",
-                "Update",
-                "Create",
-                "Import",
-                "Delete",
-                "Recover",
-                "Backup",
-                "Restore",
-                "Decrypt",
-                "Encrypt",
-                "UnwrapKey",
-                "WrapKey",
-                "Verify",
-                "Sign",
-                "Purge"
-              ],
-              "secrets": [
-                "Get",
-                "List",
-                "Set",
-                "Delete",
-                "Recover",
-                "Backup",
-                "Restore",
-                "Purge"
-              ],
-              "certificates": [
-                "Get",
-                "List",
-                "Update",
-                "Create",
-                "Import",
-                "Delete",
-                "Recover",
-                "Backup",
-                "Restore",
-                "ManageContacts",
-                "ManageIssuers",
-                "GetIssuers",
-                "ListIssuers",
-                "SetIssuers",
-                "DeleteIssuers",
-                "Purge"
-              ]
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for all resources."
             }
-          }
-        ],
-        "enabledForTemplateDeployment": true
-      },
-      "resources": []
-    }
-  ]
+        },
+        "tenantId": {
+            "type": "string",
+            "metadata": {
+                "description": "Tenant Id of "
+            }
+        },
+        "objectIdJk": {
+            "type": "string",
+            "metadata": {
+                "description": "Object Id of "
+            }
+        }
+    },
+    "resources": [
+        {
+            "name": "kv-test-actions",
+            "type": "Microsoft.KeyVault/vaults",
+            "apiVersion": "2019-09-01",
+            "location": "[parameters('location')]",
+            "tags": {},
+            "properties": {
+                "tenantId": "[parameters('tenantId')]",
+                "sku": {
+                    "family": "A",
+                    "name": "Standard"
+                },
+                "accessPolicies": [
+                    {
+                        "tenantId": "[parameters('tenantId')]",
+                        "objectId": "[parameters('objectIdJk')]",
+                        "permissions": {
+                            "keys": [
+                                "Get",
+                                "List",
+                                "Update",
+                                "Create",
+                                "Import",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore"
+                            ],
+                            "secrets": [
+                                "Get",
+                                "List",
+                                "Set",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore"
+                            ],
+                            "certificates": [
+                                "Get",
+                                "List",
+                                "Update",
+                                "Create",
+                                "Import",
+                                "Delete",
+                                "Recover",
+                                "Backup",
+                                "Restore",
+                                "ManageContacts",
+                                "ManageIssuers",
+                                "GetIssuers",
+                                "ListIssuers",
+                                "SetIssuers",
+                                "DeleteIssuers"
+                            ]
+                        }
+                    }
+                ],
+                "enabledForTemplateDeployment": true
+            },
+            "resources": []
+        }
+    ]
 }
