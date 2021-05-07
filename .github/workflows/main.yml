@@ -30,3 +30,6 @@ jobs:
         resourceGroupName: ${{ secrets.AZURE_RG }}
         template: ./KeyVault/azuredeploy-keyvault.json
         parameters: ./KeyVault/parameters-keyvault.json
+      env:
+        tenantId: ${{ secrets.AZURE_TENANTID }}
+        objectIdJk:  ${{ secrets.AZURE_OBJECTID_JK }}
