@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "eastus"
+        },
+        "tenantId": {
+            "value": "3c8f608e-b2b9-415c-926a-d6cb1cfe5d78"
+        },
+        "objectIdJk": {
+            "value": "14513cc2-ed3d-4d51-808f-f8c5683df133"
+        }
+    }
+}
