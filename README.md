@@ -25,3 +25,4 @@ Proof of concept work that Azure Synapse Analytics can be maintained and deploye
 * [Microsoft - CI CD in Azure Synapse Analytics Part 3](https://techcommunity.microsoft.com/t5/data-architecture-blog/ci-cd-in-azure-synapse-analytics-part-3/ba-p/1993201)
 * [Microsoft - CI CD in Azure Synapse Analytics Part 4 - The Release Pipeline](https://techcommunity.microsoft.com/t5/data-architecture-blog/ci-cd-in-azure-synapse-analytics-part-4-the-release-pipeline/ba-p/2034434)
 * [Microsoft - Microsoft.Synapse workspaces](https://docs.microsoft.com/en-us/azure/templates/microsoft.synapse/workspaces?tabs=json)
+* [GitHub - GitHub Action for Azure Resource Manager (ARM) deployment](https://github.com/marketplace/actions/deploy-azure-resource-manager-arm-template)
