@@ -1,0 +1,48 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workspaceName": {
+            "type": "string",
+            "defaultValue": "synapse-test-actions"
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        },
+        "synapse-test-actions-WorkspaceDefaultStorage_properties_typeProperties_url": {
+            "type": "string",
+            "defaultValue": "https://sttestactions.dfs.core.windows.net"
+        }
+    },
+    "resources": [
+        {
+            "name": "[parameters('workspaceName')]",
+            "type": "Microsoft.Synapse/workspaces",
+            "apiVersion": "2019-06-01-preview",
+            "tags": {},
+            "location": "[parameters('location')]",
+            "properties": {
+                "defaultDataLakeStorage": {
+                    "accountUrl": "[parameters('synapse-test-actions-WorkspaceDefaultStorage_properties_typeProperties_url')]",
+                    "filesystem": "[parameters('workspaceName')]"
+                }
+            },
+            "identity": {
+                "type": "SystemAssigned"
+            }
+        },
+        {
+            "name": "[concat(parameters('workspaceName'), '/allowAll')]",
+            "type": "Microsoft.Synapse/workspaces/firewallRules",
+            "apiVersion": "2019-06-01-preview",
+            "properties": {
+                "endIpAddress": "255.255.255.255",
+                "startIpAddress": "0.0.0.0"
+            }
+        }
+    ]
+}
