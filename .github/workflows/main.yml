@@ -8,15 +8,6 @@ jobs:
       # Checkout code
     - uses: actions/checkout@main
 
-      # Variable Substitution in JSON
-    - name: Substitute variables in JSON
-      uses: microsoft/variable-substitution@v1 
-      with:
-        files: ./KeyVault/parameters-keyvault.json
-      env:
-        parameters.tenantId: ${{ secrets.AZURE_TENANTID }}
-        parameters.objectIdJk:  ${{ secrets.AZURE_OBJECTID_JK }}
-
       # Log into Azure
     - uses: azure/login@v1
       with:
