@@ -36,6 +36,25 @@
             }
         },
         {
+            "name": "[concat(parameters('workspaceName'), '/AutoResolveIntegrationRuntime')]",
+            "type": "Microsoft.Synapse/workspaces/integrationRuntimes",
+            "apiVersion": "2019-06-01-preview",
+            "properties": {
+                "description": "string",
+                "type": "Managed",
+                "typeProperties": {
+                     "computeProperties": {
+                        "location": "AutoResolve",
+                        "dataFlowProperties": {
+                            "computeType": "General",
+                            "coreCount": 8,
+                            "timeToLive": 0
+                        }
+                    }
+                }
+            }
+        },
+        {
             "name": "[concat(parameters('workspaceName'), '/allowAll')]",
             "type": "Microsoft.Synapse/workspaces/firewallRules",
             "apiVersion": "2019-06-01-preview",
