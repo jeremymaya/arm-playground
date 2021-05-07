@@ -41,17 +41,17 @@ jobs:
         parameters: ./Synapse/Workspace/parameters-workspace.json
 
       # Deploy Artifacts Synapse Workspace 
-    # - name: Deploy artifacts for Synapse Workspace
-    #   uses: azure/synapse-workspace-deployment
-    #   with:
-    #     TargetWorkspaceName: synapse-test-actions
-    #     TemplateFile: ./Synapse/Artifact/template-artifact.json
-    #     ParametersFile: ./Synapse/Artifact/parameters-artifact.json
-    #     environment: Azure Public
-    #     resourceGroup: ${{ secrets.AZURE_RG }}
-    #     clientId: ${{ secrets.AZURE_CLIENTID }}
-    #     clientSecret: ${{ secrets.AZURE_CLIENTSECRET }}
-    #     subscriptionId: ${{ secrets.AZURE_SUBID }}
-    #     tenantId: ${{ secrets.AZURE_TENANTID }}
-    #     activeDirectoryEndpointUrl: ${{ secrets.AZURE_ADE }}
-    #     resourceManagerEndpointUrl: ${{ secrets.AZURE_RME }}
+    - name: Deploy artifacts for Synapse Workspace
+      uses: azure/synapse-workspace-deployment
+      with:
+        TargetWorkspaceName: synapse-test-actions
+        TemplateFile: ./Synapse/Artifact/template-artifact.json
+        ParametersFile: ./Synapse/Artifact/parameters-artifact.json
+        environment: Azure Public
+        resourceGroup: ${{ secrets.AZURE_RG }}
+        clientId: ${{ secrets.AZURE_CLIENTID }}
+        clientSecret: ${{ secrets.AZURE_CLIENTSECRET }}
+        subscriptionId: ${{ secrets.AZURE_SUBID }}
+        tenantId: ${{ secrets.AZURE_TENANTID }}
+        activeDirectoryEndpointUrl: ${{ secrets.AZURE_ADE }}
+        resourceManagerEndpointUrl: ${{ secrets.AZURE_RME }}
