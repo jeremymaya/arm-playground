@@ -42,12 +42,12 @@ jobs:
 
       # Deploy Artifacts Synapse Workspace 
     - name: Deploy artifacts for Synapse Workspace
-      uses: Azure/synapse-workspace-deployment@v1
+      uses: azure/synapse-workspace-deployment@v0.1
       with:
-        TargetWorkspaceName: 'synapse-test-actions'
-        TemplateFile: './Synapse/Artifact/template-artifact.json'
-        ParametersFile: './Synapse/Artifact/parameters-artifact.json'
-        environment: 'Azure Public'
+        TargetWorkspaceName: synapse-test-actions
+        TemplateFile: ./Synapse/Artifact/template-artifact.json
+        ParametersFile: ./Synapse/Artifact/parameters-artifact.json
+        environment: Azure Public
         resourceGroup: ${{ secrets.AZURE_RG }}
         clientId: ${{ secrets.AZURE_CLIENTID }}
         clientSecret: ${{ secrets.AZURE_CLIENTSECRET }}
