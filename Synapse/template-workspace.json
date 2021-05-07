@@ -64,7 +64,7 @@
 		{
 			"name": "[concat(parameters('workspaceName'), '/AutoResolveIntegrationRuntime')]",
 			"type": "Microsoft.Synapse/workspaces/integrationRuntimes",
-			"apiVersion": "2021-03-01",
+			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"type": "Managed",
 				"typeProperties": {
