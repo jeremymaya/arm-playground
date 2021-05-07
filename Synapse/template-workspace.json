@@ -110,7 +110,9 @@
                     }
                 }
             },
-            "dependsOn": []
+            "dependsOn": [
+                "[variables('workspaceId')]"
+            ]
         }
     ]
 }

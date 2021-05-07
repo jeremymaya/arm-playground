@@ -6,7 +6,7 @@
 			"value": "synapse-test-actions"
 		},
 		"synapse-test-actions-WorkspaceDefaultSqlServer_connectionString": {
-			"value": ""
+			"value": "Data Source=tcp:synapse-test-actuibs.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
 		"synapse-test-actions-WorkspaceDefaultStorage_properties_typeProperties_url": {
 			"value": "https://sttestactions.dfs.core.windows.net"
