@@ -449,7 +449,7 @@
 			"dependsOn": [
 				"[concat(variables('workspaceId'), '/notebooks/nb-hello-world')]",
 				"[concat(variables('workspaceId'), '/datasets/ds_cosmosdb_devops_usea')]",
-				"[concat(variables('workspaceId'), '/datasets/ds_adls2_sttestdevops_usea')]"
+				"[concat(variables('workspaceId'), '/datasets/ds_adls2_sttestactions_usea')]"
 			]
 		}
     ]
