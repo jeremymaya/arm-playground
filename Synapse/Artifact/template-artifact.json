@@ -196,6 +196,26 @@
                 ]
             },
             "dependsOn": []
-        }
+        },
+        {
+			"name": "[concat(parameters('workspaceName'), '/ds_cosmosdb_devops_usea')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_cosmosdb_devops_usea",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "CosmosDbSqlApiCollection",
+				"schema": {},
+				"typeProperties": {
+					"collectionName": "sandbox"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/ls_cosmosdb_devops_usea')]"
+			]
+		}
     ]
 }
