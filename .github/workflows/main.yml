@@ -16,34 +16,34 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Ensures the Azure Resource Group exists before ARM deployment
-    # - uses: azure/cli@v1
-    #   with:
-    #     inlineScript: |
-    #       #!/bin/bash
-    #       if $(az group exists --name ${{ secrets.AZURE_RG }}) ; then
-    #         echo "Azure resource group already exists, skipping creation..."
-    #       else
-    #         az group create --name ${{ env.AZURE_RG }} --location ${{ env.ResourceGroupLocation }}
-    #         echo "Azure resource group created"
-    #       fi
+    - uses: azure/cli@v1
+      with:
+        inlineScript: |
+          #!/bin/bash
+          if $(az group exists --name ${{ secrets.AZURE_RG }}) ; then
+            echo "Azure resource group already exists, skipping creation..."
+          else
+            az group create --name ${{ env.AZURE_RG }} --location ${{ env.ResourceGroupLocation }}
+            echo "Azure resource group created"
+          fi
 
       # Deploy ARM template for KeyVault
-    # - name: Run ARM deploy for KeyVault
-    #   uses: azure/arm-deploy@v1
-    #   with:
-    #     subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-    #     resourceGroupName: ${{ secrets.AZURE_RG }}
-    #     template: ./KeyVault/azuredeploy-keyvault.json
-    #     parameters: ./KeyVault/parameters-keyvault.json
+    - name: Run ARM deploy for KeyVault
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ./KeyVault/azuredeploy-keyvault.json
+        parameters: ./KeyVault/parameters-keyvault.json
 
       # Deploy ARM template for Storage
-    # - name: Run ARM deploy for Storage
-    #   uses: azure/arm-deploy@v1
-    #   with:
-    #     subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-    #     resourceGroupName: ${{ secrets.AZURE_RG }}
-    #     template: ./Storage/template-storage.json
-    #     parameters: ./Storage/parameters-storage.json
+    - name: Run ARM deploy for Storage
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ./Storage/template-storage.json
+        parameters: ./Storage/parameters-storage.json
       
       # Deploy ARM template for Synapse
     - name: Run ARM deploy for Synapse
