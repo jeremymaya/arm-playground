@@ -312,7 +312,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "ds_adls2_sttestdevops_usea",
+											"referenceName": "ds_adls2_sttestactions_usea",
 											"type": "DatasetReference",
 											"parameters": {
 												"bucket": {
@@ -386,7 +386,7 @@
 									],
 									"outputs": [
 										{
-											"referenceName": "ds_adls2_sttestdevops_usea",
+											"referenceName": "ds_adls2_sttestactions_usea",
 											"type": "DatasetReference",
 											"parameters": {
 												"bucket": {
