@@ -24,7 +24,6 @@ jobs:
       with:
         path: |
           Synapse/Resources/Artifact.json
-          Synapse/Resources/Parameters.json
         retention-days: 5
 
   # upload-synapse-artifact:
