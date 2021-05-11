@@ -67,9 +67,9 @@ jobs:
       with:
         name: synapse-artifact
         path: |
-          Synapse/Resources/Artifact.json
-          Synapse/Resources/Parameters.json
-        retension-days: 5
+          Synapse/Resources/*.json
+          !Synapse/Resources/Template.json
+        retention-days: 5
 
       # Deploy Artifacts for Synapse Workspace 
     # - name: Run Synapse Workspace artifacts deploy
