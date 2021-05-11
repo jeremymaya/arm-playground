@@ -1,14 +1,45 @@
 on: [push]
 name: Azure ARM
 jobs:
-  build-and-deploy:
+  build-synapse-artifact:
     runs-on: ubuntu-latest
-    env:
-      ResourceGroupLocation: "eastus"
     steps:
 
       # Checkout code
     - uses: actions/checkout@main
+
+      # Setup Python to run build_template.py
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+      # Run build_template.py to generate Synapse Workspace artifact
+    - name: Run build_tempalte.py to generate Synapse Workspace artifact
+      run: python3 Synapse/build_template.py
+
+  upload-synapse-artifact:
+    needs: build-synapse-artifact
+    runs-on: ubuntu-latest
+    steps:
+
+      # Upload Synapse Workspace artifact
+    - name: Upload Synapse Workspace artifact
+      uses: actions/upload-artifact@v2
+      with:
+        path: |
+          Synapse/Resources/*.json
+          !Synapse/Resources/Template.json
+        retention-days: 5
+
+  # build-and-deploy:
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     ResourceGroupLocation: "eastus"
+  #   steps:
+
+  #     # Checkout code
+  #   - uses: actions/checkout@main
 
     #   # Log into Azure
     # - uses: azure/login@v1
@@ -53,23 +84,6 @@ jobs:
     #     resourceGroupName: ${{ secrets.AZURE_RG }}
     #     template: ./Synapse/Workspace/template-workspace.json
     #     parameters: ./Synapse/Workspace/parameters-workspace.json
-
-    - name: Set up Python 3.x
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-
-    - name: Run build_tempalte.py to generate Synapse Workspace artifact
-      run: python3 Synapse/build_template.py
-
-    - name: Upload Synapse Workspace artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: synapse-artifact
-        path: |
-          Synapse/Resources/*.json
-          !Synapse/Resources/Template.json
-        retention-days: 5
 
       # Deploy Artifacts for Synapse Workspace 
     # - name: Run Synapse Workspace artifacts deploy
