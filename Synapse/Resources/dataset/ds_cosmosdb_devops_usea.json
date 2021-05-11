@@ -1,0 +1,15 @@
+{
+	"name": "ds_cosmosdb_devops_usea",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_cosmosdb_devops_usea",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {},
+		"typeProperties": {
+			"collectionName": "sandbox"
+		}
+	}
+}

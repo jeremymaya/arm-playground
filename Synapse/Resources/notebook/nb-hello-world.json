@@ -1,0 +1,61 @@
+{
+	"name": "nb-hello-world",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "spsmall",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "28g",
+			"driverCores": 4,
+			"executorMemory": "28g",
+			"executorCores": 4,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"synapse_widget": {
+				"version": "0.1"
+			},
+			"kernelspec": {
+				"name": "synapse_spark",
+				"display_name": "Synapse Spark"
+			},
+			"language_info": {
+				"name": "scala"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/f52fc92a-79db-44fb-850e-cb974fbede99/resourceGroups/synapse-via-actions/providers/Microsoft.Synapse/workspaces/synapse-test-actions/bigDataPools/spsmall",
+				"name": "spsmall",
+				"type": "Spark",
+				"endpoint": "https://synapse-test-actions.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spsmall",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "2.4",
+				"nodeCount": 10,
+				"cores": 4,
+				"memory": 28,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"println(\"hello world!\")"
+				],
+				"execution_count": null
+			}
+		]
+	}
+}

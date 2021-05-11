@@ -10,62 +10,68 @@ jobs:
       # Checkout code
     - uses: actions/checkout@main
 
-      # Log into Azure
-    - uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    #   # Log into Azure
+    # - uses: azure/login@v1
+    #   with:
+    #     creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # Ensures the Azure Resource Group exists before ARM deployment
-    - uses: azure/cli@v1
-      with:
-        inlineScript: |
-          #!/bin/bash
-          if $(az group exists --name ${{ secrets.AZURE_RG }}) ; then
-            echo "Azure resource group already exists, skipping creation..."
-          else
-            az group create --name ${{ env.AZURE_RG }} --location ${{ env.ResourceGroupLocation }}
-            echo "Azure resource group created"
-          fi
+    #   # Ensures the Azure Resource Group exists before ARM deployment
+    # - uses: azure/cli@v1
+    #   with:
+    #     inlineScript: |
+    #       #!/bin/bash
+    #       if $(az group exists --name ${{ secrets.AZURE_RG }}) ; then
+    #         echo "Azure resource group already exists, skipping creation..."
+    #       else
+    #         az group create --name ${{ env.AZURE_RG }} --location ${{ env.ResourceGroupLocation }}
+    #         echo "Azure resource group created"
+    #       fi
 
-      # Deploy ARM template for KeyVault
-    - name: Run ARM deploy for KeyVault
-      uses: azure/arm-deploy@v1
-      with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ secrets.AZURE_RG }}
-        template: ./KeyVault/azuredeploy-keyvault.json
-        parameters: ./KeyVault/parameters-keyvault.json
+    #   # Deploy ARM template for KeyVault
+    # - name: Run ARM deploy for KeyVault
+    #   uses: azure/arm-deploy@v1
+    #   with:
+    #     subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+    #     resourceGroupName: ${{ secrets.AZURE_RG }}
+    #     template: ./KeyVault/azuredeploy-keyvault.json
+    #     parameters: ./KeyVault/parameters-keyvault.json
 
-      # Deploy ARM template for Storage
-    - name: Run ARM deploy for Storage
-      uses: azure/arm-deploy@v1
-      with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ secrets.AZURE_RG }}
-        template: ./Storage/template-storage.json
-        parameters: ./Storage/parameters-storage.json
+    #   # Deploy ARM template for Storage
+    # - name: Run ARM deploy for Storage
+    #   uses: azure/arm-deploy@v1
+    #   with:
+    #     subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+    #     resourceGroupName: ${{ secrets.AZURE_RG }}
+    #     template: ./Storage/template-storage.json
+    #     parameters: ./Storage/parameters-storage.json
       
-      # Deploy ARM template for Synapse
-    - name: Run ARM deploy for Synapse
-      uses: azure/arm-deploy@v1
+    #   # Deploy ARM template for Synapse
+    # - name: Run ARM deploy for Synapse
+    #   uses: azure/arm-deploy@v1
+    #   with:
+    #     subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+    #     resourceGroupName: ${{ secrets.AZURE_RG }}
+    #     template: ./Synapse/Workspace/template-workspace.json
+    #     parameters: ./Synapse/Workspace/parameters-workspace.json
+
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
       with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-        resourceGroupName: ${{ secrets.AZURE_RG }}
-        template: ./Synapse/Workspace/template-workspace.json
-        parameters: ./Synapse/Workspace/parameters-workspace.json
+        python-version: '3.x'
+      run: python3 Synapse\build_template.py
 
       # Deploy Artifacts for Synapse Workspace 
-    - name: Run Synapse Workspace artifacts deploy
-      uses: azure/synapse-workspace-deployment@v0.1
-      with:
-        TargetWorkspaceName: synapse-test-actions
-        TemplateFile: ./Synapse/Artifact/template-artifact.json
-        ParametersFile: ./Synapse/Artifact/parameters-artifact.json
-        environment: Azure Public
-        resourceGroup: ${{ secrets.AZURE_RG }}
-        clientId: ${{ secrets.AZURE_CLIENTID }}
-        clientSecret: ${{ secrets.AZURE_CLIENTSECRET }}
-        subscriptionId: ${{ secrets.AZURE_SUBID }}
-        tenantId: ${{ secrets.AZURE_TENANTID }}
-        activeDirectoryEndpointUrl: ${{ secrets.AZURE_ADE }}
-        resourceManagerEndpointUrl: ${{ secrets.AZURE_RME }}
+    # - name: Run Synapse Workspace artifacts deploy
+    #   uses: azure/synapse-workspace-deployment@v0.1
+    #   with:
+    #     TargetWorkspaceName: synapse-test-actions
+    #     TemplateFile: ./Synapse/Resources/Template.json
+    #     ParametersFile: ./Synapse/Resources/Parameters.json
+    #     environment: Azure Public
+    #     resourceGroup: ${{ secrets.AZURE_RG }}
+    #     clientId: ${{ secrets.AZURE_CLIENTID }}
+    #     clientSecret: ${{ secrets.AZURE_CLIENTSECRET }}
+    #     subscriptionId: ${{ secrets.AZURE_SUBID }}
+    #     tenantId: ${{ secrets.AZURE_TENANTID }}
+    #     activeDirectoryEndpointUrl: ${{ secrets.AZURE_ADE }}
+    #     resourceManagerEndpointUrl: ${{ secrets.AZURE_RME }}

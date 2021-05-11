@@ -1,0 +1,31 @@
+{
+	"name": "ds_adls2_sttestactions_usea",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "synapse-test-actions-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"bucket": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat('friends_', substring(subtractFromTime(startOfHour(pipeline().TriggerTime), 1, 'Day'), 0, 4), '_', substring(subtractFromTime(startOfHour(pipeline().TriggerTime), 1, 'Day'), 5, 2), '_', substring(subtractFromTime(startOfHour(pipeline().TriggerTime), 1, 'Day'), 8, 2), '_usea_bucket_', dataset().bucket)",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat('friends/', substring(subtractFromTime(startOfHour(pipeline().TriggerTime), 1, 'Day'), 0, 4), '/', substring(subtractFromTime(startOfHour(pipeline().TriggerTime), 1, 'Day'), 5, 2))",
+					"type": "Expression"
+				},
+				"fileSystem": "raw"
+			}
+		},
+		"schema": {}
+	}
+}
