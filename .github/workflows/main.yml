@@ -54,7 +54,7 @@ jobs:
         template: ./Synapse/Workspace/template-workspace.json
         parameters: ./Synapse/Workspace/parameters-workspace.json
 
-      # Deploy Artifacts Synapse Workspace 
+      # Deploy Artifacts for Synapse Workspace 
     - name: Run Synapse Workspace artifacts deploy
       uses: azure/synapse-workspace-deployment@v0.1
       with:
