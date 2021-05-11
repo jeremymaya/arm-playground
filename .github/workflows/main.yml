@@ -60,7 +60,7 @@ jobs:
         python-version: '3.x'
 
     - name: Run build_tempalte.py
-      run: python3 Synapse\build_template.py
+      run: python3 Synapse/build_template.py
 
       # Deploy Artifacts for Synapse Workspace 
     # - name: Run Synapse Workspace artifacts deploy
