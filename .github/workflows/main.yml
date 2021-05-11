@@ -62,6 +62,12 @@ jobs:
     - name: Run build_tempalte.py
       run: python3 Synapse/build_template.py
 
+    - name: Upload math result for job 1
+      uses: actions/upload-artifact@v2
+      with:
+        name: synapse-artifact
+        path: Synapse/Workspace/Artifact.py
+
       # Deploy Artifacts for Synapse Workspace 
     # - name: Run Synapse Workspace artifacts deploy
     #   uses: azure/synapse-workspace-deployment@v0.1

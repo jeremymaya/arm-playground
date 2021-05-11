@@ -30,7 +30,7 @@ def update_template_with_resources(path, files, api_version):
             resource = json.load(f)
             build_resource.build(resource, api_version, file_name)
         template['resources'].append(resource)
-    with open(path + '/Artifact.json', mode='w') as artifact:
+    with open('Synapse/Workspace/Artifact.json', mode='w') as artifact:
         json.dump(template, artifact, indent = 4, sort_keys=True)
 
 def main():
