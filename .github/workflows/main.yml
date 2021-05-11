@@ -58,6 +58,8 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
+
+    - name: Run build_tempalte.py
       run: python3 Synapse\build_template.py
 
       # Deploy Artifacts for Synapse Workspace 
