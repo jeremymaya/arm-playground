@@ -16,7 +16,7 @@ jobs:
 
       # Run build_template.py to generate Synapse Workspace artifact
     - name: Run build_tempalte.py to generate Synapse Workspace artifact
-      run: python3 Synapse/build_template.py
+      run: python3 Synapse/build_template.py ${{ github.workspace }}
 
       # Upload Synapse Workspace artifact
     - name: Upload Synapse Workspace artifact
