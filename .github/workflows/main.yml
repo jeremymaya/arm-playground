@@ -23,7 +23,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         path: |
-          ~/Synapse/Resources/Artifact.json
+          ${{ github.workspace }}/Synapse/Resources/Artifact.json
         retention-days: 5
 
   # upload-synapse-artifact:
