@@ -1,0 +1,10 @@
+{
+	"name": "ls_kv_actions_usea",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://kv-test-actions.vault.azure.net/"
+		}
+	}
+}

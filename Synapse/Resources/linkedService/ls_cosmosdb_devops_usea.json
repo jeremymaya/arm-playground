@@ -1,0 +1,21 @@
+{
+	"name": "ls_cosmosdb_devops_usea",
+	"properties": {
+		"annotations": [],
+		"type": "CosmosDb",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_kv_actions_usea",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "cosmosdb-test-devops-primary-connection"
+			}
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

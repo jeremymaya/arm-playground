@@ -1,0 +1,451 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ls_cosmosdb_devops_usea_properties_typeProperties_connectionString_secretName": {
+            "defaultValue": "cosmosdb-test-devops-primary-connection",
+            "type": "string"
+        },
+        "ls_kv_actions_usea_properties_typeProperties_baseUrl": {
+            "defaultValue": "https://sttestactions.dfs.core.windows.net",
+            "type": "string"
+        },
+        "synapse-test-actions-WorkspaceDefaultSqlServer_connectionString": {
+            "metadata": "Secure string for 'connectionString' of 'synapse-test-actions-WorkspaceDefaultSqlServer'",
+            "type": "secureString"
+        },
+        "synapse-test-actions-WorkspaceDefaultStorage_properties_typeProperties_url": {
+            "defaultValue": "https://sttestactions.dfs.core.windows.net",
+            "type": "string"
+        },
+        "workspaceName": {
+            "defaultValue": "synapse-test-actions",
+            "metadata": "Workspace name",
+            "type": "string"
+        }
+    },
+    "resources": [
+        {
+            "apiVersion": "2019-06-01-preview",
+            "dependsOn": [
+                "[concat(variables('workspaceId'), '/linkedServices/synapse-test-actions-WorkspaceDefaultStorage')]"
+            ],
+            "name": "[concat(parameters('workspaceName'), '/ds_adls2_sttestactions_usea')]",
+            "properties": {
+                "annotations": [],
+                "linkedServiceName": {
+                    "referenceName": "synapse-test-actions-WorkspaceDefaultStorage",
+                    "type": "LinkedServiceReference"
+                },
+                "parameters": {
+                    "bucket": {
+                        "type": "string"
+                    }
+                },
+                "schema": {},
+                "type": "Json",
+                "typeProperties": {
+                    "location": {
+                        "fileName": {
+                            "type": "Expression",
+                            "value": "@concat('friends_', substring(subtractFromTime(startOfHour(pipeline().TriggerTime), 1, 'Day'), 0, 4), '_', substring(subtractFromTime(startOfHour(pipeline().TriggerTime), 1, 'Day'), 5, 2), '_', substring(subtractFromTime(startOfHour(pipeline().TriggerTime), 1, 'Day'), 8, 2), '_usea_bucket_', dataset().bucket)"
+                        },
+                        "fileSystem": "raw",
+                        "folderPath": {
+                            "type": "Expression",
+                            "value": "@concat('friends/', substring(subtractFromTime(startOfHour(pipeline().TriggerTime), 1, 'Day'), 0, 4), '/', substring(subtractFromTime(startOfHour(pipeline().TriggerTime), 1, 'Day'), 5, 2))"
+                        },
+                        "type": "AzureBlobFSLocation"
+                    }
+                }
+            },
+            "type": "Microsoft.Synapse/workspaces/datasets"
+        },
+        {
+            "apiVersion": "2019-06-01-preview",
+            "dependsOn": [
+                "[concat(variables('workspaceId'), '/linkedServices/ls_cosmosdb_devops_usea')]"
+            ],
+            "name": "[concat(parameters('workspaceName'), '/ds_cosmosdb_devops_usea')]",
+            "properties": {
+                "annotations": [],
+                "linkedServiceName": {
+                    "referenceName": "ls_cosmosdb_devops_usea",
+                    "type": "LinkedServiceReference"
+                },
+                "schema": {},
+                "type": "CosmosDbSqlApiCollection",
+                "typeProperties": {
+                    "collectionName": "sandbox"
+                }
+            },
+            "type": "Microsoft.Synapse/workspaces/datasets"
+        },
+        {
+            "apiVersion": "2019-06-01-preview",
+            "dependsOn": [],
+            "name": "[concat(parameters('workspaceName'), '/AutoResolveIntegrationRuntime')]",
+            "properties": {
+                "type": "Managed",
+                "typeProperties": {
+                    "computeProperties": {
+                        "dataFlowProperties": {
+                            "computeType": "General",
+                            "coreCount": 8,
+                            "timeToLive": 0
+                        },
+                        "location": "AutoResolve"
+                    }
+                }
+            },
+            "type": "Microsoft.Synapse/workspaces/integrationRuntimes"
+        },
+        {
+            "apiVersion": "2019-06-01-preview",
+            "dependsOn": [
+                "[concat(variables('workspaceId'), '/linkedServices/ls_kv_actions_usea')]",
+                "[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+            ],
+            "name": "[concat(parameters('workspaceName'), '/ls_cosmosdb_devops_usea')]",
+            "properties": {
+                "annotations": [],
+                "connectVia": {
+                    "referenceName": "AutoResolveIntegrationRuntime",
+                    "type": "IntegrationRuntimeReference"
+                },
+                "type": "CosmosDb",
+                "typeProperties": {
+                    "connectionString": {
+                        "secretName": "cosmosdb-test-devops-primary-connection",
+                        "store": {
+                            "referenceName": "ls_kv_actions_usea",
+                            "type": "LinkedServiceReference"
+                        },
+                        "type": "AzureKeyVaultSecret"
+                    }
+                }
+            },
+            "type": "Microsoft.Synapse/workspaces/linkedServices"
+        },
+        {
+            "apiVersion": "2019-06-01-preview",
+            "dependsOn": [],
+            "name": "[concat(parameters('workspaceName'), '/ls_kv_actions_usea')]",
+            "properties": {
+                "annotations": [],
+                "type": "AzureKeyVault",
+                "typeProperties": {
+                    "baseUrl": "https://kv-test-actions.vault.azure.net/"
+                }
+            },
+            "type": "Microsoft.Synapse/workspaces/linkedServices"
+        },
+        {
+            "apiVersion": "2019-06-01-preview",
+            "dependsOn": [
+                "[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+            ],
+            "name": "[concat(parameters('workspaceName'), '/synapse-test-actions-WorkspaceDefaultSqlServer')]",
+            "properties": {
+                "annotations": [],
+                "connectVia": {
+                    "referenceName": "AutoResolveIntegrationRuntime",
+                    "type": "IntegrationRuntimeReference"
+                },
+                "parameters": {
+                    "DBName": {
+                        "type": "String"
+                    }
+                },
+                "type": "AzureSqlDW",
+                "typeProperties": {
+                    "connectionString": "Data Source=tcp:synapse-test-actions.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
+                }
+            },
+            "type": "Microsoft.Synapse/workspaces/linkedServices"
+        },
+        {
+            "apiVersion": "2019-06-01-preview",
+            "dependsOn": [
+                "[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+            ],
+            "name": "[concat(parameters('workspaceName'), '/synapse-test-actions-WorkspaceDefaultStorage')]",
+            "properties": {
+                "annotations": [],
+                "connectVia": {
+                    "referenceName": "AutoResolveIntegrationRuntime",
+                    "type": "IntegrationRuntimeReference"
+                },
+                "type": "AzureBlobFS",
+                "typeProperties": {
+                    "url": "https://sttestactions.dfs.core.windows.net"
+                }
+            },
+            "type": "Microsoft.Synapse/workspaces/linkedServices"
+        },
+        {
+            "apiVersion": "2019-06-01-preview",
+            "dependsOn": [],
+            "name": "[concat(parameters('workspaceName'), '/nb-hello-world')]",
+            "properties": {
+                "bigDataPool": {
+                    "referenceName": "spsmall",
+                    "type": "BigDataPoolReference"
+                },
+                "cells": [
+                    {
+                        "cell_type": "code",
+                        "execution_count": null,
+                        "source": [
+                            "println(\"hello world!\")"
+                        ]
+                    }
+                ],
+                "metadata": {
+                    "a365ComputeOptions": {
+                        "auth": {
+                            "authResource": "https://dev.azuresynapse.net",
+                            "type": "AAD"
+                        },
+                        "automaticScaleJobs": false,
+                        "cores": 4,
+                        "endpoint": "https://synapse-test-actions.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/spsmall",
+                        "id": "/subscriptions/f52fc92a-79db-44fb-850e-cb974fbede99/resourceGroups/synapse-via-actions/providers/Microsoft.Synapse/workspaces/synapse-test-actions/bigDataPools/spsmall",
+                        "memory": 28,
+                        "name": "spsmall",
+                        "nodeCount": 10,
+                        "sparkVersion": "2.4",
+                        "type": "Spark"
+                    },
+                    "kernelspec": {
+                        "display_name": "Synapse Spark",
+                        "name": "synapse_spark"
+                    },
+                    "language_info": {
+                        "name": "scala"
+                    },
+                    "saveOutput": true,
+                    "sessionKeepAliveTimeout": 30,
+                    "synapse_widget": {
+                        "version": "0.1"
+                    }
+                },
+                "nbformat": 4,
+                "nbformat_minor": 2,
+                "sessionProperties": {
+                    "conf": {
+                        "spark.dynamicAllocation.enabled": "false",
+                        "spark.dynamicAllocation.maxExecutors": "2",
+                        "spark.dynamicAllocation.minExecutors": "2"
+                    },
+                    "driverCores": 4,
+                    "driverMemory": "28g",
+                    "executorCores": 4,
+                    "executorMemory": "28g",
+                    "numExecutors": 2
+                }
+            },
+            "type": "Microsoft.Synapse/workspaces/notebooks"
+        },
+        {
+            "apiVersion": "2019-06-01-preview",
+            "dependsOn": [
+                "[concat(variables('workspaceId'), '/notebooks/nb-hello-world')]",
+                "[concat(variables('workspaceId'), '/datasets/ds_adls2_sttestactions_usea')]",
+                "[concat(variables('workspaceId'), '/datasets/ds_cosmosdb_devops_usea')]"
+            ],
+            "name": "[concat(parameters('workspaceName'), '/pl_copy_friends_daily')]",
+            "properties": {
+                "activities": [
+                    {
+                        "dependsOn": [],
+                        "name": "ForEachCopyFriendsBucketOne",
+                        "type": "ForEach",
+                        "typeProperties": {
+                            "activities": [
+                                {
+                                    "dependsOn": [],
+                                    "inputs": [
+                                        {
+                                            "referenceName": "ds_cosmosdb_devops_usea",
+                                            "type": "DatasetReference"
+                                        }
+                                    ],
+                                    "name": "CopyFriendsBucketOne",
+                                    "outputs": [
+                                        {
+                                            "parameters": {
+                                                "bucket": {
+                                                    "type": "Expression",
+                                                    "value": "@item()"
+                                                }
+                                            },
+                                            "referenceName": "ds_adls2_sttestactions_usea",
+                                            "type": "DatasetReference"
+                                        }
+                                    ],
+                                    "policy": {
+                                        "retry": 0,
+                                        "retryIntervalInSeconds": 30,
+                                        "secureInput": false,
+                                        "secureOutput": false,
+                                        "timeout": "7.00:00:00"
+                                    },
+                                    "type": "Copy",
+                                    "typeProperties": {
+                                        "enableStaging": false,
+                                        "sink": {
+                                            "formatSettings": {
+                                                "type": "JsonWriteSettings"
+                                            },
+                                            "storeSettings": {
+                                                "type": "AzureBlobFSWriteSettings"
+                                            },
+                                            "type": "JsonSink"
+                                        },
+                                        "source": {
+                                            "detectDatetime": true,
+                                            "preferredRegions": [],
+                                            "query": {
+                                                "type": "Expression",
+                                                "value": "@concat('select * from c where c.id = ''Friend'' and ', string(div(sub(ticks(subtractFromTime(startOfHour(pipeline().TriggerTime), 1, 'Day')), ticks('1970-01-01T00:00:00Z')), 10000000)), ' < c._ts and startswith(c.FriendId, ''', item(), ''')')"
+                                            },
+                                            "type": "CosmosDbSqlApiSource"
+                                        }
+                                    },
+                                    "userProperties": []
+                                }
+                            ],
+                            "items": {
+                                "type": "Expression",
+                                "value": "@pipeline().parameters.bucket_one"
+                            }
+                        },
+                        "userProperties": []
+                    },
+                    {
+                        "dependsOn": [
+                            {
+                                "activity": "ForEachCopyFriendsBucketOne",
+                                "dependencyConditions": [
+                                    "Completed"
+                                ]
+                            }
+                        ],
+                        "name": "ForEachCopyFriendsBucketTwo",
+                        "type": "ForEach",
+                        "typeProperties": {
+                            "activities": [
+                                {
+                                    "dependsOn": [],
+                                    "inputs": [
+                                        {
+                                            "referenceName": "ds_cosmosdb_devops_usea",
+                                            "type": "DatasetReference"
+                                        }
+                                    ],
+                                    "name": "CopyFriendsBucketTwo",
+                                    "outputs": [
+                                        {
+                                            "parameters": {
+                                                "bucket": {
+                                                    "type": "Expression",
+                                                    "value": "@item()"
+                                                }
+                                            },
+                                            "referenceName": "ds_adls2_sttestactions_usea",
+                                            "type": "DatasetReference"
+                                        }
+                                    ],
+                                    "policy": {
+                                        "retry": 0,
+                                        "retryIntervalInSeconds": 30,
+                                        "secureInput": false,
+                                        "secureOutput": false,
+                                        "timeout": "7.00:00:00"
+                                    },
+                                    "type": "Copy",
+                                    "typeProperties": {
+                                        "enableStaging": false,
+                                        "sink": {
+                                            "formatSettings": {
+                                                "type": "JsonWriteSettings"
+                                            },
+                                            "storeSettings": {
+                                                "type": "AzureBlobFSWriteSettings"
+                                            },
+                                            "type": "JsonSink"
+                                        },
+                                        "source": {
+                                            "detectDatetime": true,
+                                            "preferredRegions": [],
+                                            "query": {
+                                                "type": "Expression",
+                                                "value": "@concat('select * from c where c.id = ''Friend'' and ', string(div(sub(ticks(subtractFromTime(startOfHour(pipeline().TriggerTime), 1, 'Day')), ticks('1970-01-01T00:00:00Z')), 10000000)), ' < c._ts and startswith(c.FriendId, ''', item(), ''')')"
+                                            },
+                                            "type": "CosmosDbSqlApiSource"
+                                        }
+                                    },
+                                    "userProperties": []
+                                }
+                            ],
+                            "items": {
+                                "type": "Expression",
+                                "value": "@pipeline().parameters.bucket_one"
+                            }
+                        },
+                        "userProperties": []
+                    },
+                    {
+                        "dependsOn": [
+                            {
+                                "activity": "ForEachCopyFriendsBucketTwo",
+                                "dependencyConditions": [
+                                    "Completed"
+                                ]
+                            }
+                        ],
+                        "name": "nb-hello-world",
+                        "policy": {
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureInput": false,
+                            "secureOutput": false,
+                            "timeout": "7.00:00:00"
+                        },
+                        "type": "SynapseNotebook",
+                        "typeProperties": {
+                            "notebook": {
+                                "referenceName": "nb-hello-world",
+                                "type": "NotebookReference"
+                            },
+                            "snapshot": true
+                        },
+                        "userProperties": []
+                    }
+                ],
+                "annotations": [],
+                "parameters": {
+                    "bucket_one": {
+                        "defaultValue": [
+                            "a",
+                            "b"
+                        ],
+                        "type": "array"
+                    },
+                    "bucket_two": {
+                        "defaultValue": [
+                            "c",
+                            "d"
+                        ],
+                        "type": "string"
+                    }
+                }
+            },
+            "type": "Microsoft.Synapse/workspaces/pipelines"
+        }
+    ],
+    "variables": {
+        "workspaceId": "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
+    }
+}

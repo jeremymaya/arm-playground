@@ -1,0 +1,190 @@
+{
+	"name": "pl_copy_friends_daily",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEachCopyFriendsBucketOne",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.bucket_one",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "CopyFriendsBucketOne",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "CosmosDbSqlApiSource",
+									"query": {
+										"value": "@concat('select * from c where c.id = ''Friend'' and ', string(div(sub(ticks(subtractFromTime(startOfHour(pipeline().TriggerTime), 1, 'Day')), ticks('1970-01-01T00:00:00Z')), 10000000)), ' < c._ts and startswith(c.FriendId, ''', item(), ''')')",
+										"type": "Expression"
+									},
+									"preferredRegions": [],
+									"detectDatetime": true
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_cosmosdb_devops_usea",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_adls2_sttestactions_usea",
+									"type": "DatasetReference",
+									"parameters": {
+										"bucket": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "ForEachCopyFriendsBucketTwo",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "ForEachCopyFriendsBucketOne",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.bucket_one",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "CopyFriendsBucketTwo",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "CosmosDbSqlApiSource",
+									"query": {
+										"value": "@concat('select * from c where c.id = ''Friend'' and ', string(div(sub(ticks(subtractFromTime(startOfHour(pipeline().TriggerTime), 1, 'Day')), ticks('1970-01-01T00:00:00Z')), 10000000)), ' < c._ts and startswith(c.FriendId, ''', item(), ''')')",
+										"type": "Expression"
+									},
+									"preferredRegions": [],
+									"detectDatetime": true
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_cosmosdb_devops_usea",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_adls2_sttestactions_usea",
+									"type": "DatasetReference",
+									"parameters": {
+										"bucket": {
+											"value": "@item()",
+											"type": "Expression"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"name": "nb-hello-world",
+				"type": "SynapseNotebook",
+				"dependsOn": [
+					{
+						"activity": "ForEachCopyFriendsBucketTwo",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebook": {
+						"referenceName": "nb-hello-world",
+						"type": "NotebookReference"
+					},
+					"snapshot": true
+				}
+			}
+		],
+		"parameters": {
+			"bucket_one": {
+				"type": "array",
+				"defaultValue": [
+					"a",
+					"b"
+				]
+			},
+			"bucket_two": {
+				"type": "string",
+				"defaultValue": [
+					"c",
+					"d"
+				]
+			}
+		},
+		"annotations": []
+	}
+}
