@@ -22,8 +22,8 @@ jobs:
     - name: Upload Synapse Workspace artifact
       uses: actions/upload-artifact@v2
       with:
-        name: synapse-resources
-        path: Synapse/Resources
+        name: arm-playground
+        path: ${{ github.workspace }}
         retention-days: 5
 
   deploy:
@@ -33,8 +33,10 @@ jobs:
       ResourceGroupLocation: "eastus"
     steps:
 
-      # Checkout code
-    - uses: actions/checkout@main
+    - name: Download arm-playground artifact from build
+      uses: actions/download-artifact@v2
+      with:
+        name: arm-playground
 
       # Log into Azure
     - uses: azure/login@v1
@@ -80,18 +82,13 @@ jobs:
     #     template: ./Synapse/Workspace/template-workspace.json
     #     parameters: ./Synapse/Workspace/parameters-workspace.json
 
-    - name: Download synapse-resources from build
-      uses: actions/download-artifact@v2
-      with:
-        name: synapse-resources
-
       # Deploy Artifacts for Synapse Workspace 
     - name: Run Synapse Workspace artifacts deploy
       uses: azure/synapse-workspace-deployment@v0.1
       with:
         TargetWorkspaceName: synapse-test-actions
-        TemplateFile: Template.json
-        ParametersFile: Parameters.json
+        TemplateFile: Synapse/Resources/Template.json
+        ParametersFile: Synapse/Resources/Parameters.json
         environment: Azure Public
         resourceGroup: ${{ secrets.AZURE_RG }}
         clientId: ${{ secrets.AZURE_CLIENTID }}
