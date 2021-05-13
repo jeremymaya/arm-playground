@@ -1,7 +1,7 @@
 on: [push]
 name: Azure ARM
 jobs:
-  build-synapse-artifact:
+  build:
     runs-on: ubuntu-latest
     steps:
 
@@ -26,27 +26,20 @@ jobs:
         path: Synapse/Resources
         retention-days: 5
 
-  # upload-synapse-artifact:
-  #   needs: build-synapse-artifact
-  #   runs-on: ubuntu-latest
-  #   steps:
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      ResourceGroupLocation: "eastus"
+    steps:
 
-  #     # Checkout code
-  #   - uses: actions/checkout@main
+      # Checkout code
+    - uses: actions/checkout@main
 
-  # build-and-deploy:
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     ResourceGroupLocation: "eastus"
-  #   steps:
-
-  #     # Checkout code
-  #   - uses: actions/checkout@main
-
-    #   # Log into Azure
-    # - uses: azure/login@v1
-    #   with:
-    #     creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # Log into Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     #   # Ensures the Azure Resource Group exists before ARM deployment
     # - uses: azure/cli@v1
@@ -87,18 +80,23 @@ jobs:
     #     template: ./Synapse/Workspace/template-workspace.json
     #     parameters: ./Synapse/Workspace/parameters-workspace.json
 
-      # Deploy Artifacts for Synapse Workspace 
-    # - name: Run Synapse Workspace artifacts deploy
-    #   uses: azure/synapse-workspace-deployment@v0.1
-    #   with:
-    #     TargetWorkspaceName: synapse-test-actions
-    #     TemplateFile: ./Synapse/Resources/Template.json
-    #     ParametersFile: ./Synapse/Resources/Parameters.json
-    #     environment: Azure Public
-    #     resourceGroup: ${{ secrets.AZURE_RG }}
-    #     clientId: ${{ secrets.AZURE_CLIENTID }}
-    #     clientSecret: ${{ secrets.AZURE_CLIENTSECRET }}
-    #     subscriptionId: ${{ secrets.AZURE_SUBID }}
-    #     tenantId: ${{ secrets.AZURE_TENANTID }}
-    #     activeDirectoryEndpointUrl: ${{ secrets.AZURE_ADE }}
-    #     resourceManagerEndpointUrl: ${{ secrets.AZURE_RME }}
+    - name: Download synapse-resources from build
+      uses: actions/download-artifact@v2
+      with:
+        name: synapse-resources
+
+      Deploy Artifacts for Synapse Workspace 
+    - name: Run Synapse Workspace artifacts deploy
+      uses: azure/synapse-workspace-deployment@v0.1
+      with:
+        TargetWorkspaceName: synapse-test-actions
+        TemplateFile: Template.json
+        ParametersFile: Parameters.json
+        environment: Azure Public
+        resourceGroup: ${{ secrets.AZURE_RG }}
+        clientId: ${{ secrets.AZURE_CLIENTID }}
+        clientSecret: ${{ secrets.AZURE_CLIENTSECRET }}
+        subscriptionId: ${{ secrets.AZURE_SUBID }}
+        tenantId: ${{ secrets.AZURE_TENANTID }}
+        activeDirectoryEndpointUrl: ${{ secrets.AZURE_ADE }}
+        resourceManagerEndpointUrl: ${{ secrets.AZURE_RME }}
