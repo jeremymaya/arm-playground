@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import os
-import sys
 import json
 import build_resource
 
@@ -24,15 +23,17 @@ def update_template_with_resources(path, files, api_version):
     """
     Append resources to Template.json
     """
-    with open(path + '/Template.json') as f:
+    with open(path + '/TemplateEmpty.json') as f:
         template = json.load(f)
     for file_name, file_path in files.items():
         with open(file_path) as f:
             resource = json.load(f)
             build_resource.build(resource, api_version, file_name)
         template['resources'].append(resource)
-    with open(sys.argv[1] + '/' + path + 'Artifact.json', mode='w') as artifact:
+    with open(path + '/Template.json', mode='w') as artifact:
+        artifact.seek(0)
         json.dump(template, artifact, indent = 4, sort_keys=True)
+        artifact.truncate()
 
 def main():
     path = 'Synapse/Resources'

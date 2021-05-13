@@ -16,14 +16,14 @@ jobs:
 
       # Run build_template.py to generate Synapse Workspace artifact
     - name: Run build_tempalte.py to generate Synapse Workspace artifact
-      run: python3 Synapse/build_template.py ${{ github.workspace }}
+      run: python3 Synapse/build_template.py
 
       # Upload Synapse Workspace artifact
     - name: Upload Synapse Workspace artifact
       uses: actions/upload-artifact@v2
       with:
-        path: |
-          ${{ github.workspace }}/Synapse/Resources/Artifact.json
+        name: synapse-resources
+        path: Synapse/Resources
         retention-days: 5
 
   # upload-synapse-artifact:
