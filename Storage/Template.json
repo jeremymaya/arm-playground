@@ -40,19 +40,8 @@
                 "isHnsEnabled": true
             }
         },
-                {
-            "name": "[concat(variables('storageAccountName'),'/default/a')]",
-            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
-            "apiVersion": "2021-01-01",
-            "properties": {
-                "publicAccess": "None"
-            },
-            "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
-            ]
-        },
         {
-            "name": "[concat(variables('storageAccountName'),'/default/b')]",
+            "name": "[concat(variables('storageAccountName'),'/default/friends')]",
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2021-01-01",
             "properties": {
