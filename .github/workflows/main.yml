@@ -62,8 +62,8 @@ jobs:
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
-        template: ./KeyVault/azuredeploy-keyvault.json
-        parameters: ./KeyVault/parameters-keyvault.json
+        template: ./KeyVault/Template.json
+        parameters: ./KeyVault/Parameters.json
 
       # Deploy ARM template for Storage
     - name: Run ARM deploy for Storage
@@ -71,8 +71,8 @@ jobs:
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
-        template: ./Storage/template-storage.json
-        parameters: ./Storage/parameters-storage.json
+        template: ./Storage/Template.json
+        parameters: ./Storage/Parameters.json
       
       # Deploy ARM template for Synapse
     - name: Run ARM deploy for Synapse
@@ -80,8 +80,8 @@ jobs:
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
         resourceGroupName: ${{ secrets.AZURE_RG }}
-        template: ./Synapse/Workspace/template-workspace.json
-        parameters: ./Synapse/Workspace/parameters-workspace.json
+        template: ./Synapse/Workspace/Template.json
+        parameters: ./Synapse/Workspace/Parameters.json
 
       # Deploy Artifacts for Synapse Workspace 
     - name: Run Synapse Workspace artifacts deploy
