@@ -39,6 +39,17 @@
             "properties": {
                 "isHnsEnabled": true
             }
+        },
+        {
+            "name": "[concat(variables('storageAccountName'),'/default/friends')]",
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2021-01-01",
+            "properties": {
+                "publicAccess": "None"
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
+            ]
         }
     ]
 }
