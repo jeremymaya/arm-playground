@@ -65,6 +65,9 @@ jobs:
   #       template: ./KeyVault/Template.json
   #       parameters: ./KeyVault/Parameters.json
 
+      # Checkout code
+    - uses: actions/checkout@main
+
       # Deploy ARM template for Storage
     - name: Run ARM deploy for Storage
       uses: azure/arm-deploy@v1
