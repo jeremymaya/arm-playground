@@ -100,6 +100,7 @@ jobs:
   #       resourceManagerEndpointUrl: ${{ secrets.AZURE_RME }}
 
   configure:
+    needs: deploy
     runs-on: ubuntu-latest
     steps:
       
