@@ -108,9 +108,9 @@ jobs:
       with:
         inlineScript: |
           #!/bin/bash
-          az role assignment create
-            --role "Storage Blob Data Contributor"
-            --assignee "synapse-test-actions"
-            --resource-group "${{ secrets.AZURE_RG }}"
-            --scope "/subscriptions/${{ secrets.AZURE_SUBID }}/resourceGroups/${{ secrets.AZURE_RG }}/providers/Microsoft.Storage/storageAccounts"
+          az role assignment create ^
+            --role "Storage Blob Data Contributor" ^
+            --assignee "synapse-test-actions" ^
+            --resource-group "${{ secrets.AZURE_RG }}" ^
+            --scope "/subscriptions/${{ secrets.AZURE_SUBID }}/resourceGroups/${{ secrets.AZURE_RG }}/providers/Microsoft.Storage/storageAccounts" ^
             --subscription "${{ secrets.AZURE_SUBID }}"
