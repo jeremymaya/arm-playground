@@ -119,6 +119,6 @@ jobs:
           #!/bin/bash
           az role assignment create \
             --role "Storage Blob Data Contributor" \
-            --assignee-object-id 1585b584-9824-47c9-8ca9-3c3d1a1ebba0 \
+            --assignee-object-id fdb798ab-987e-4e10-92d0-be511d22dcab \
             --assignee-principal-type "ServicePrincipal" \
             --scope "/subscriptions/${{ secrets.AZURE_SUBID }}/resourceGroups/${{ secrets.AZURE_RG }}/providers/Microsoft.Storage/storageAccounts/sttestactions"
