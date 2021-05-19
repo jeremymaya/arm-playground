@@ -113,4 +113,4 @@ jobs:
       with:
         inlineScript: |
           #!/bin/bash
-          az role assignment create --assignee-object-id f629d07b-8c93-49d6-9dc7-e5e79a39e3a4 --assignee-principal-type "ServicePrincipal" --role "Storage Blob Data Contributor" --resource-group "${{ secrets.AZURE_RG }}" --scope "/subscriptions/${{ secrets.AZURE_SUBID }}/resourceGroups/${{ secrets.AZURE_RG }}/providers/Microsoft.Storage/storageAccounts" --subscription ${{ secrets.AZURE_SUBID }}
+          az role assignment create --assignee-object-id f629d07b-8c93-49d6-9dc7-e5e79a39e3a4 --assignee-principal-type "ServicePrincipal" --role "Storage Blob Data Contributor" --scope "/subscriptions/${{ secrets.AZURE_SUBID }}/resourceGroups/${{ secrets.AZURE_RG }}/providers/Microsoft.Storage/storageAccounts"
