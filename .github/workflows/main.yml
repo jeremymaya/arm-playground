@@ -26,23 +26,23 @@ jobs:
   #       path: ${{ github.workspace }}
   #       retention-days: 5
 
-  # deploy:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     ResourceGroupLocation: "eastus"
-  #   steps:
+  deploy:
+    # needs: build
+    runs-on: ubuntu-latest
+    env:
+      ResourceGroupLocation: "eastus"
+    steps:
       
-  #     # Download artifact from the build stage instead of checking out code
-  #   - name: Download arm-playground artifact from build
-  #     uses: actions/download-artifact@v2
-  #     with:
-  #       name: arm-playground
+      # Download artifact from the build stage instead of checking out code
+    - name: Download arm-playground artifact from build
+      uses: actions/download-artifact@v2
+      with:
+        name: arm-playground
 
-  #     # Log into Azure
-  #   - uses: azure/login@v1
-  #     with:
-  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # Log into Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
   #     # Ensures the Azure Resource Group exists before ARM deployment
   #   - uses: azure/cli@v1
@@ -65,14 +65,14 @@ jobs:
   #       template: ./KeyVault/Template.json
   #       parameters: ./KeyVault/Parameters.json
 
-  #     # Deploy ARM template for Storage
-  #   - name: Run ARM deploy for Storage
-  #     uses: azure/arm-deploy@v1
-  #     with:
-  #       subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-  #       resourceGroupName: ${{ secrets.AZURE_RG }}
-  #       template: ./Storage/Template.json
-  #       parameters: ./Storage/Parameters.json
+      # Deploy ARM template for Storage
+    - name: Run ARM deploy for Storage
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ./Storage/Template.json
+        parameters: ./Storage/Parameters.json
       
   #     # Deploy ARM template for Synapse
   #   - name: Run ARM deploy for Synapse
