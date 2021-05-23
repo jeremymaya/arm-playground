@@ -56,14 +56,14 @@ jobs:
   #           echo "Azure resource group created"
   #         fi
 
-  #     # Deploy ARM template for KeyVault
-  #   - name: Run ARM deploy for KeyVault
-  #     uses: azure/arm-deploy@v1
-  #     with:
-  #       subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-  #       resourceGroupName: ${{ secrets.AZURE_RG }}
-  #       template: ./KeyVault/Template.json
-  #       parameters: ./KeyVault/Parameters.json
+      # Deploy ARM template for KeyVault
+    - name: Run ARM deploy for KeyVault
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ./KeyVault/Template.json
+        parameters: ./KeyVault/Parameters.json
 
     #   # Checkout code
     # - uses: actions/checkout@main
@@ -116,4 +116,5 @@ jobs:
     - uses: azure/cli@v1
       with:
         inlineScript: |
-          az keyvault set-policy -n kv-test-actions --secret-permissions get list --upn synapse-test-actions
+          az keyvault set-policy -n kv-test-actions --secret-permissions get list --spn synapse-test-actions
+          az keyvault set-policy -n kv-test-actions --secret-permissions get list --object-id ${{ secrets.AZURE_CLIENTID }}
