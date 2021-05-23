@@ -116,4 +116,4 @@ jobs:
     - uses: azure/cli@v1
       with:
         inlineScript: |
-          az keyvault set-policy -n kv-test-actions --secret-permissions get list --object-id fdb798ab-987e-4e10-92d0-be511d22dcab
+          az keyvault set-policy -n kv-test-actions --secret-permissions get list --upn synapse-test-actions
