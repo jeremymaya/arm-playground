@@ -36,7 +36,8 @@
                     "name": "Standard"
                 },
                 "accessPolicies": [],
-                "enabledForTemplateDeployment": true
+                "enabledForTemplateDeployment": true,
+                "enableRbacAuthorization": true
             },
             "resources": []
         }
