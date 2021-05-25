@@ -119,5 +119,5 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          New-AzRoleAssignment -ObjectId ${{ secrets.AZURE_CLIENTID }} -RoleDefinitionName "Storage Blob Data Reader" -ResourceGroupName ${{ secrets.AZURE_RG }}
+          Write-Host "Hello"
         azPSVersion: '3.1.0'
