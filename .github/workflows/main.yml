@@ -26,25 +26,25 @@ jobs:
   #       path: ${{ github.workspace }}
   #       retention-days: 5
 
-  deploy:
-    # needs: build
-    runs-on: ubuntu-latest
-    env:
-      ResourceGroupLocation: "eastus"
-    steps:
-      # Checkout code
-    - uses: actions/checkout@main
+  # deploy:
+  #   # needs: build
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     ResourceGroupLocation: "eastus"
+  #   steps:
+  #     # Checkout code
+  #   - uses: actions/checkout@main
 
-      # Download artifact from the build stage instead of checking out code
-    # - name: Download arm-playground artifact from build
-    #   uses: actions/download-artifact@v2
-    #   with:
-    #     name: arm-playground
+  #     # Download artifact from the build stage instead of checking out code
+  #   # - name: Download arm-playground artifact from build
+  #   #   uses: actions/download-artifact@v2
+  #   #   with:
+  #   #     name: arm-playground
 
-      # Log into Azure
-    - uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #     # Log into Azure
+  #   - uses: azure/login@v1
+  #     with:
+  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
 
   #     # Ensures the Azure Resource Group exists before ARM deployment
   #   - uses: azure/cli@v1
@@ -105,7 +105,7 @@ jobs:
   #       resourceManagerEndpointUrl: ${{ secrets.AZURE_RME }}
 
   configure:
-    needs: deploy
+    # needs: deploy
     runs-on: ubuntu-latest
     steps:
       
@@ -120,4 +120,5 @@ jobs:
       with:
         inlineScript: |
           Write-Host "Hello"
+          New-AzRoleAssignment -ObjectId 87309ff7-0e5a-448d-92f5-929407c4a83b -RoleDefinitionName "Storage Blob Data Contributor" -ResourceGroupName "synapse-via-actions"
         azPSVersion: '3.1.0'
