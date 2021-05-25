@@ -115,8 +115,9 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       # Configure KeyVault access policy
-    - uses: azure/cli@v1
+    - name: Run Azure PowerShell script
+      uses: azure/powershell@v1
       with:
         inlineScript: |
-          az keyvault set-policy -n kv-test-actions --secret-permissions get list --spn synapse-test-actions
-          az keyvault set-policy -n kv-test-actions --secret-permissions get list --object-id ${{ secrets.AZURE_CLIENTID }}
+          New-AzRoleAssignment -ObjectId ${{ secrets.AZURE_CLIENTID }} -RoleDefinitionName "Storage Blob Data Reader" -ResourceGroupName ${{ secrets.AZURE_RG }}
+        azPSVersion: '3.1.0'
