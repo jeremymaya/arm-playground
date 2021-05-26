@@ -32,9 +32,6 @@ jobs:
     env:
       ResourceGroupLocation: "eastus"
     steps:
-      # Checkout code
-    - uses: actions/checkout@main
-
       # Download artifact from the build stage instead of checking out code
     - name: Download arm-playground artifact from build
       uses: actions/download-artifact@v2
