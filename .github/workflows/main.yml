@@ -108,7 +108,10 @@ jobs:
     # needs: deploy
     runs-on: ubuntu-latest
     steps:
-      
+
+      # Checkout code
+    - uses: actions/checkout@main
+
       # Log into Azure
     - uses: azure/login@v1
       with:
@@ -119,10 +122,9 @@ jobs:
     - name: Run Azure PowerShell script
       uses: azure/powershell@v1
       with:
-        inlineScript: |
-          Write-Host "Setting KeyVault Access Policy for Synapse Workspace"
-          Set-AzKeyVaultAccessPolicy `
-              -VaultName kv-test-actions `
-              -ObjectId 87309ff7-0e5a-448d-92f5-929407c4a83b `
-              -PermissionsToSecrets get,list
+        scriptType: filePath
+        scriptPath: config.ps1
+        scriptArguments:
+          -keyVaultName kv-test-actions
+          -workspaceName synapse-test-actions
         azPSVersion: 'latest'
