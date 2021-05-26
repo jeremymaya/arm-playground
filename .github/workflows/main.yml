@@ -108,10 +108,6 @@ jobs:
     # needs: deploy
     runs-on: ubuntu-latest
     steps:
-
-      # Checkout code
-    - uses: actions/checkout@main
-
       # Log into Azure
     - uses: azure/login@v1
       with:
@@ -125,7 +121,12 @@ jobs:
         inlineScript: |
           Write-Host "Setting KeyVault Access Policy for Synapse Workspace"
           Set-AzKeyVaultAccessPolicy `
-              -VaultName kv-test-actions `
-              -ServicePrincipalName  synapse-test-actions `
-              -PermissionsToSecrets get,list
+            -VaultName kv-test-actions `
+            -ServicePrincipalName synapse-test-actions `
+            -PermissionsToSecrets get,list
+          Write-Host "Assigning Storage Blob Data Contributor Role to Synapse Workspace"
+          New-AzRoleAssignment `
+            -ObjectId $securityGroupObjectId `
+            -RoleDefinitionName "Storage Blob Data Contributor" `
+            -Scope "/subscriptions/" + $subscriptionName + "/resourceGroups/" + $resourceGroupName + "/providers/Microsoft.Storage/storageAccounts/" + $storageName
         azPSVersion: 'latest'
