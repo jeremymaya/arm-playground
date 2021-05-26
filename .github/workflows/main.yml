@@ -129,7 +129,9 @@ jobs:
         inlineScript: |
           Install-Module -Name Az.Synapse -Scope CurrentUser -Repository PSGallery -Force
 
-          Get-AzSynapseRoleAssignment -WorkspaceName synapse-test-actions
+          if((Get-AzSynapseRoleAssignment -WorkspaceName synapse-test-actions).ObjectId -Contains d37bde21-bca0-4c2e-b968-d0c0dd101fc9)) {
+            Write-Host "Hello"
+          }
 
           # Write-Host "Retrieving Synapse Workspace ObjectId Based on Display Name"
           # $workspaceObjectId = (Get-AzADServicePrincipal -DisplayName synapse-test-actions).Id
