@@ -120,6 +120,9 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          Write-Host "Hello"
-          Get-AzContext -ListAvailable
-        azPSVersion: '3.1.0'
+          Write-Host "Setting KeyVault Access Policy for Synapse Workspace"
+          Set-AzKeyVaultAccessPolicy `
+              -VaultName kv-test-actions `
+              -ObjectId ${{ secrets.AZURE_CLIENTID }} `
+              -PermissionsToSecrets get,list
+        azPSVersion: 'latest'
