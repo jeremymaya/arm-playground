@@ -119,6 +119,7 @@ jobs:
         inlineScript: |
           Install-Module -Name Az.Synapse -Scope CurrentUser -Repository PSGallery -Force
 
+          Write-Host "Retrieving Synapse Workspace ObjectId Based on Display Name"
           $workspaceObjectId = (Get-AzADServicePrincipal -DisplayName synapse-test-actions).Id
 
           Write-Host "Assigning Storage Blob Data Contributor Role to Synapse Workspace"
@@ -129,15 +130,17 @@ jobs:
               -Scope "/subscriptions/${{ secrets.AZURE_SUBID }}/resourceGroups/${{ secrets.AZURE_RG }}/providers/Microsoft.Storage/storageAccounts/sttestactions"
           }
 
+          Write-Host "Setting Synapse Workspace Access Policy for Security Group"
+          if (-not (Get-AzRoleAssignment -ObjectId ${{ secrets.AZURE_CLIENTID }}).RoleDefinitionName -Contains "Synapse Administrator") {
+            New-AzSynapseRoleAssignment `
+              -WorkspaceName synapse-test-actions `
+              -RoleDefinitionName "Synapse Administrator" `
+              -ObjectId ${{ secrets.AZURE_CLIENTID }}
+          }
+
           Write-Host "Setting KeyVault Access Policy for Synapse Workspace"
           Set-AzKeyVaultAccessPolicy `
             -VaultName kv-test-actions `
             -ObjectId $workspaceObjectId `
             -PermissionsToSecrets get,list
-
-          Write-Host "Setting Synapse Workspace Access Policy for Security Group"
-          New-AzSynapseRoleAssignment `
-              -WorkspaceName synapse-test-actions `
-              -RoleDefinitionName "Synapse Administrator" `
-              -ObjectId ${{ secrets.AZURE_CLIENTID }}
         azPSVersion: 'latest'
