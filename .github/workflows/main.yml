@@ -146,7 +146,7 @@ jobs:
 
           Write-Host "Adding CosmosDB Connection String to KeyVault"
           Add-SecretToKeyVault `
-              -resourceGroupName ${{ secrets.AZURE_RG }} `
-              -databaseAccountName cosmosdb-test-devops `
-              -keyVaultName kv-test-actions
+            -resourceGroupName synapse-via-devops `
+            -databaseAccountName cosmosdb-test-devops `
+            -keyVaultName kv-test-actions
         azPSVersion: 'latest'
