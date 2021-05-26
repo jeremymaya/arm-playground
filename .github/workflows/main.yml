@@ -120,5 +120,16 @@ jobs:
       with:
         inlineScript: |
           $workspaceObjectId = (Get-AzADApplication -DisplayName synapse-test-actions).ObjectId
-          Write-Host $workspaceObjectId
+          
+          Write-Host "Setting KeyVault Access Policy for Synapse Workspace"
+          Set-AzKeyVaultAccessPolicy `
+            -VaultName kv-test-actions `
+            -ObjectId $workspaceObjectId `
+            -PermissionsToSecrets get,list
+
+          Write-Host "Assigning Storage Blob Data Contributor Role to Synapse Workspace"
+          New-AzRoleAssignment `
+            -ObjectId $workspaceObjectId `
+            -RoleDefinitionName "Storage Blob Data Contributor" `
+            -Scope "/subscriptions/${{ secrets.AZURE_SUBID }}/resourceGroups/${{ secrets.AZURE_RG }}/providers/Microsoft.Storage/storageAccounts/sttestactions"
         azPSVersion: 'latest'
