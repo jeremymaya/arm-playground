@@ -119,11 +119,14 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
+          $workspaceName = Get-AzureADApplication -Filter "DisplayName eq 'synapse-test-actions'"
+
           Write-Host "Setting KeyVault Access Policy for Synapse Workspace"
           Set-AzKeyVaultAccessPolicy `
             -VaultName kv-test-actions `
             -ObjectId fdb798ab-987e-4e10-92d0-be511d22dcab `
             -PermissionsToSecrets get,list
+
           Write-Host "Assigning Storage Blob Data Contributor Role to Synapse Workspace"
           New-AzRoleAssignment `
             -ObjectId fdb798ab-987e-4e10-92d0-be511d22dcab `
