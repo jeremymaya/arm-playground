@@ -50,19 +50,6 @@
             "dependsOn": [
                 "[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
             ]
-        },
-        {
-            "type": "Microsoft.Authorization/roleAssignments",
-            "apiVersion": "2017-09-01",
-            "name": "armPlayground",
-            "scope": "[concat('Microsoft.Storage/storageAccounts', '/', variables('storageAccountName'))]",
-            "dependsOn": [
-                "[variables('storageAccountName')]"
-            ],
-            "properties": {
-                "roleDefinitionId": "Owner",
-                "principalId": "1585b584-9824-47c9-8ca9-3c3d1a1ebba0"
-            }
         }
     ]
 }
