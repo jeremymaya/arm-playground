@@ -113,9 +113,9 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          Install-Module -Name Az.Resources
-          Import-Module -Name Az.Resources
-          
+          Install-Module -Name Az.Synapse 
+          Import-Module -Name Az.Synapse 
+
           $workspaceObjectId = (Get-AzADServicePrincipal -DisplayName synapse-test-actions).Id
 
           Write-Host "Assigning Storage Blob Data Contributor Role to Synapse Workspace"
