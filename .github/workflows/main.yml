@@ -120,5 +120,5 @@ jobs:
       with:
         inlineScript: |
           Write-Host "Hello"
-          New-AzRoleAssignment -ObjectId 87309ff7-0e5a-448d-92f5-929407c4a83b -RoleDefinitionName "Storage Blob Data Contributor" -ResourceGroupName "synapse-via-actions"
+          New-AzRoleAssignment -ObjectId be49ede5-0136-4567-a17f-7dd672ae61fa -RoleDefinitionName "Storage Blob Data Contributor" -ResourceGroupName "synapse-via-actions"
         azPSVersion: '3.1.0'
