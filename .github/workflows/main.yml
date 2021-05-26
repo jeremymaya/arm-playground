@@ -59,6 +59,16 @@ jobs:
             az group create --name ${{ env.AZURE_RG }} --location ${{ env.ResourceGroupLocation }}
             echo "Azure resource group created"
           fi
+
+      # Deploy ARM template for Network Security Group
+    - name: Run ARM deploy for Network Security Group
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ./NetworkSecurityGroup/Template.json
+        parameters: ./NetworkSecurityGroup/Parameters.json
+
       # Deploy ARM template for KeyVault
     - name: Run ARM deploy for KeyVault
       uses: azure/arm-deploy@v1
@@ -103,7 +113,7 @@ jobs:
         resourceManagerEndpointUrl: ${{ secrets.AZURE_RME }}
 
   configure:
-    needs: deploy
+    # needs: deploy
     runs-on: ubuntu-latest
     steps:
       # Log into Azure
@@ -131,11 +141,11 @@ jobs:
           }
 
           Write-Host "Setting Synapse Workspace Access Policy for Security Group"
-          if (-not (Get-AzRoleAssignment -ObjectId ${{ secrets.AZURE_CLIENTID }}).RoleDefinitionName -Contains "Synapse Administrator") {
+          if(-not (Get-AzSynapseRoleAssignment -WorkspaceName synapse-test-actions).ObjectId -Contains "d37bde21-bca0-4c2e-b968-d0c0dd101fc9") {
             New-AzSynapseRoleAssignment `
               -WorkspaceName synapse-test-actions `
               -RoleDefinitionName "Synapse Administrator" `
-              -ObjectId ${{ secrets.AZURE_CLIENTID }}
+              -ObjectId d37bde21-bca0-4c2e-b968-d0c0dd101fc9
           }
 
           Write-Host "Setting KeyVault Access Policy for Synapse Workspace"
