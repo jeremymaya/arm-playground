@@ -22,7 +22,6 @@ jobs:
     - name: Upload Synapse Workspace artifact
       uses: actions/upload-artifact@v2
       with:
-        name: arm-playground
         path: ${{ github.workspace }}
         retention-days: 5
 
@@ -35,8 +34,6 @@ jobs:
       # Download artifact from the build stage instead of checking out code
     - name: Download arm-playground artifact from build
       uses: actions/download-artifact@v2
-      with:
-        name: arm-playground
 
       # Log into Azure
     - uses: azure/login@v1
