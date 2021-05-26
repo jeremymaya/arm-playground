@@ -106,7 +106,7 @@ jobs:
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        enable-AzPSSession: true
+        # enable-AzPSSession: true
 
       # Configure KeyVault access policy
     # - name: Run Azure PowerShell script
@@ -140,7 +140,7 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v1
-      
+
     - uses: azure/cli@v1
       with:
         inlineScript: |
