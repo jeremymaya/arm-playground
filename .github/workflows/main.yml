@@ -123,6 +123,6 @@ jobs:
           Write-Host "Setting KeyVault Access Policy for Synapse Workspace"
           Set-AzKeyVaultAccessPolicy `
               -VaultName kv-test-actions `
-              -ObjectId ${{ secrets.AZURE_CLIENTID }} `
+              -ObjectId 87309ff7-0e5a-448d-92f5-929407c4a83b `
               -PermissionsToSecrets get,list
         azPSVersion: 'latest'
