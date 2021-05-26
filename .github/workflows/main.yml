@@ -22,6 +22,7 @@ jobs:
     - name: Upload Synapse Workspace artifact
       uses: actions/upload-artifact@v2
       with:
+        name: arm-playground
         path: ${{ github.workspace }}
         retention-days: 5
 
@@ -31,9 +32,12 @@ jobs:
     env:
       ResourceGroupLocation: "eastus"
     steps:
+      
       # Download artifact from the build stage instead of checking out code
     - name: Download arm-playground artifact from build
       uses: actions/download-artifact@v2
+      with:
+        name: arm-playground
 
       # Log into Azure
     - uses: azure/login@v1
@@ -51,7 +55,6 @@ jobs:
             az group create --name ${{ env.AZURE_RG }} --location ${{ env.ResourceGroupLocation }}
             echo "Azure resource group created"
           fi
-
       # Deploy ARM template for KeyVault
     - name: Run ARM deploy for KeyVault
       uses: azure/arm-deploy@v1
@@ -60,9 +63,6 @@ jobs:
         resourceGroupName: ${{ secrets.AZURE_RG }}
         template: ./KeyVault/Template.json
         parameters: ./KeyVault/Parameters.json
-
-      # Checkout code
-    - uses: actions/checkout@main
 
       # Deploy ARM template for Storage
     - name: Run ARM deploy for Storage
