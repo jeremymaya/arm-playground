@@ -27,7 +27,7 @@ jobs:
         retention-days: 5
 
   deploy:
-    # needs: build
+    needs: build
     runs-on: ubuntu-latest
     env:
       ResourceGroupLocation: "eastus"
