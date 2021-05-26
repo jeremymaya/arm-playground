@@ -122,7 +122,7 @@ jobs:
           function Add-SecretToKeyVault($resourceGroupName, $databaseAccountName, $keyVaultName) {
             $cosmosDB = Get-AzCosmosDBAccount  -ResourceGroupName $resourceGroupName -Name $databaseAccountName
             $connectionString = Get-AzCosmosDBAccountKey -ResourceGroupName $resourceGroupName -Name $databaseAccountName -Type "ConnectionStrings"
-            $secretValue = ConvertTo-SecureString $connectionString.'Primary SQL Connection String' + "Database=playground;" -AsPlainText -Force
+            $secretValue = ConvertTo-SecureString ($connectionString.'Primary SQL Connection String' + "Database=playground;") -AsPlainText -Force
             $secretName = $cosmosDB.Name + "-cosmosdb-r-key"
             $secret = Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName -SecretValue $secretValue
           }
