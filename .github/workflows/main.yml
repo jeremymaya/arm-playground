@@ -113,8 +113,7 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          Install-Module -Name Az.Synapse 
-          Import-Module -Name Az.Synapse 
+          Install-Module -Name Az.Synapse -Scope CurrentUser -Repository PSGallery -Force
 
           $workspaceObjectId = (Get-AzADServicePrincipal -DisplayName synapse-test-actions).Id
 
