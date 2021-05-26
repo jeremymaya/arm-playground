@@ -141,11 +141,11 @@ jobs:
           }
 
           Write-Host "Setting Synapse Workspace Access Policy for Security Group"
-          if (-not (Get-AzRoleAssignment -ObjectId ${{ secrets.AZURE_CLIENTID }}).RoleDefinitionName -Contains "Synapse Administrator") {
+          if (-not (Get-AzSynapseRoleAssignment -ObjectId d37bde21-bca0-4c2e-b968-d0c0dd101fc9.RoleDefinitionName -Contains "Synapse Administrator") {
             New-AzSynapseRoleAssignment `
               -WorkspaceName synapse-test-actions `
               -RoleDefinitionName "Synapse Administrator" `
-              -ObjectId ${{ secrets.AZURE_CLIENTID }}
+              -ObjectId d37bde21-bca0-4c2e-b968-d0c0dd101fc9
           }
 
           Write-Host "Setting KeyVault Access Policy for Synapse Workspace"
