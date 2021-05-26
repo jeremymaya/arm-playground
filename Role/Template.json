@@ -1,0 +1,28 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "roleDefinitionId": {
+            "type": "string",
+            "defaultValue": "b24988ac-6180-42a0-ab88-20f7382dd24c",
+            "metadata": {
+                "description": "Default Value: Contributor / Parameter Value: Storage Blob Data Contributor"
+            }
+        }
+    },
+    "variables": {
+        "roleAssignmentName": "[guid(subscription().id, 'd37bde21-bca0-4c2e-b968-d0c0dd101fc9', parameters('roleDefinitionId'))]"
+    },
+    "resources": [
+        {
+            "name": "[variables('roleAssignmentName')]",
+            "type": "Microsoft.Authorization/roleAssignments",
+            "apiVersion": "2017-09-01",
+            "scope": "Microsoft.Storage/storageAccounts/sttestactions",
+            "properties": {
+                "roleDefinitionId": "[parameters('roleDefinitionId')]",
+                "principalId": "d37bde21-bca0-4c2e-b968-d0c0dd101fc9"
+            }
+        }
+    ]
+}

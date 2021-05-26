@@ -28,3 +28,5 @@ Proof of concept work that Azure Synapse Analytics can be maintained and deploye
 * [Microsoft - CI CD in Azure Synapse Analytics Part 2](https://techcommunity.microsoft.com/t5/data-architecture-blog/ci-cd-in-azure-synapse-analytics-part-2/ba-p/1991060)
 * [Microsoft - CI CD in Azure Synapse Analytics Part 3](https://techcommunity.microsoft.com/t5/data-architecture-blog/ci-cd-in-azure-synapse-analytics-part-3/ba-p/1993201)
 * [Microsoft - CI CD in Azure Synapse Analytics Part 4 - The Release Pipeline](https://techcommunity.microsoft.com/t5/data-architecture-blog/ci-cd-in-azure-synapse-analytics-part-4-the-release-pipeline/ba-p/2034434)
+* [Microsoft - Azure PowerShell documentation](https://docs.microsoft.com/en-us/powershell/azure/?view=azps-6.0.0)
+* [Microsoft - Azure Command-Line Interface (CLI) documentation](https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest)
