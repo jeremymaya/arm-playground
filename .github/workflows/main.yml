@@ -121,5 +121,6 @@ jobs:
         inlineScript: |
           Get-AzADApplication
           Get-AzADServicePrincipal
+          Get-AzSynapseWorkspace -Name synapse-test-actions
           Write-Host "Hello"
         azPSVersion: 'latest'
