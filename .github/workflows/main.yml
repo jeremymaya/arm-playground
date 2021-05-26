@@ -122,11 +122,11 @@ jobs:
           Write-Host "Setting KeyVault Access Policy for Synapse Workspace"
           Set-AzKeyVaultAccessPolicy `
             -VaultName kv-test-actions `
-            -ServicePrincipalName synapse-test-actions `
+            -ObjectId fdb798ab-987e-4e10-92d0-be511d22dcab `
             -PermissionsToSecrets get,list
           Write-Host "Assigning Storage Blob Data Contributor Role to Synapse Workspace"
           New-AzRoleAssignment `
-            -ObjectId $securityGroupObjectId `
+            -ObjectId fdb798ab-987e-4e10-92d0-be511d22dcab `
             -RoleDefinitionName "Storage Blob Data Contributor" `
-            -Scope "/subscriptions/" + $subscriptionName + "/resourceGroups/" + $resourceGroupName + "/providers/Microsoft.Storage/storageAccounts/" + $storageName
+            -Scope "/subscriptions/${{ secrets.AZURE_SUBID }}/resourceGroups/${{ secrets.AZURE_RG }}/providers/Microsoft.Storage/storageAccounts/sttestactions"
         azPSVersion: 'latest'
