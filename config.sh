@@ -1,3 +1,5 @@
 #!/bin/bash
 
-az ad sp list --display-name "synapse-test-actions"
+workspaceObjectId=az ad sp list --display-name "synapse-test-actions"
+
+echo "$workspaceObjectId.objectId"
