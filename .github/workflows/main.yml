@@ -122,9 +122,10 @@ jobs:
     - name: Run Azure PowerShell script
       uses: azure/powershell@v1
       with:
-        scriptType: filePath
-        scriptPath: config.ps1
-        scriptArguments:
-          -keyVaultName kv-test-actions
-          -workspaceName synapse-test-actions
+        inlineScript: |
+          Write-Host "Setting KeyVault Access Policy for Synapse Workspace"
+          Set-AzKeyVaultAccessPolicy `
+              -VaultName kv-test-actions `
+              -ServicePrincipalName  synapse-test-actions `
+              -PermissionsToSecrets get,list
         azPSVersion: 'latest'
