@@ -36,10 +36,10 @@ jobs:
     - uses: actions/checkout@main
 
       # Download artifact from the build stage instead of checking out code
-    # - name: Download arm-playground artifact from build
-    #   uses: actions/download-artifact@v2
-    #   with:
-    #     name: arm-playground
+    - name: Download arm-playground artifact from build
+      uses: actions/download-artifact@v2
+      with:
+        name: arm-playground
 
       # Log into Azure
     - uses: azure/login@v1
