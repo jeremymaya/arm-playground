@@ -120,5 +120,6 @@ jobs:
       with:
         inlineScript: |
           Write-Host "Hello"
+          Connect-AzAccount
           Get-AzRoleAssignment -ResourceGroupName ${{ secrets.AZURE_RG }}
         azPSVersion: '3.1.0'
