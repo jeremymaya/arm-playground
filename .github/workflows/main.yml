@@ -129,7 +129,7 @@ jobs:
         inlineScript: |
           Install-Module -Name Az.Synapse -Scope CurrentUser -Repository PSGallery -Force
 
-          if((Get-AzSynapseRoleAssignment -WorkspaceName synapse-test-actions).ObjectId -Contains d37bde21-bca0-4c2e-b968-d0c0dd101fc9)) {
+          if((Get-AzSynapseRoleAssignment -WorkspaceName synapse-test-actions).ObjectId -Contains "d37bde21-bca0-4c2e-b968-d0c0dd101fc9") {
             Write-Host "Hello"
           }
 
