@@ -119,6 +119,6 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          $workspaceObjectId = (Get-AzADApplication -DisplayName synapse-test-actions).ObjectId –PassThru -Verbose
+          $workspaceObjectId = (Get-AzADApplication -DisplayName synapse-test-actions).ObjectId -Verbose
           Write-Host "Hello"
         azPSVersion: 'latest'
