@@ -1,148 +1,143 @@
-on: [push]
+on:
+  push:
+    branches:
+      - main
+
 name: Azure ARM
 jobs:
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
+  build:
+    runs-on: ubuntu-latest
+    steps:
 
-  #     # Checkout code
-  #   - uses: actions/checkout@main
+      # Checkout code
+    - uses: actions/checkout@main
 
-  #     # Setup Python to run build_template.py
-  #   - name: Set up Python 3.x
-  #     uses: actions/setup-python@v2
-  #     with:
-  #       python-version: '3.x'
+      # Setup Python to run build_template.py
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
 
-  #     # Run build_template.py to generate Synapse Workspace artifact
-  #   - name: Run build_tempalte.py to generate Synapse Workspace artifact
-  #     run: python3 Synapse/build_template.py
+      # Run build_template.py to generate Synapse Workspace artifact
+    - name: Run build_tempalte.py to generate Synapse Workspace artifact
+      run: python3 Synapse/build_template.py
 
-  #     # Upload Synapse Workspace artifact
-  #   - name: Upload Synapse Workspace artifact
-  #     uses: actions/upload-artifact@v2
-  #     with:
-  #       name: arm-playground
-  #       path: ${{ github.workspace }}
-  #       retention-days: 5
+      # Upload Synapse Workspace artifact
+    - name: Upload Synapse Workspace artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: arm-playground
+        path: ${{ github.workspace }}
+        retention-days: 5
 
-  # deploy:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     ResourceGroupLocation: "eastus"
-  #   steps:
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    env:
+      ResourceGroupLocation: "eastus"
+    steps:
       
-  #     # Download artifact from the build stage instead of checking out code
-  #   - name: Download arm-playground artifact from build
-  #     uses: actions/download-artifact@v2
-  #     with:
-  #       name: arm-playground
+      # Download artifact from the build stage instead of checking out code
+    - name: Download arm-playground artifact from build
+      uses: actions/download-artifact@v2
+      with:
+        name: arm-playground
 
-  #     # Log into Azure
-  #   - uses: azure/login@v1
-  #     with:
-  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
+      # Log into Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-  #     # Ensures the Azure Resource Group exists before ARM deployment
-  #   - uses: azure/cli@v1
-  #     with:
-  #       inlineScript: |
-  #         #!/bin/bash
-  #         if $(az group exists --name ${{ secrets.AZURE_RG }}) ; then
-  #           echo "Azure resource group already exists, skipping creation..."
-  #         else
-  #           az group create --name ${{ env.AZURE_RG }} --location ${{ env.ResourceGroupLocation }}
-  #           echo "Azure resource group created"
-  #         fi
-  #     # Deploy ARM template for KeyVault
-  #   - name: Run ARM deploy for KeyVault
-  #     uses: azure/arm-deploy@v1
-  #     with:
-  #       subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-  #       resourceGroupName: ${{ secrets.AZURE_RG }}
-  #       template: ./KeyVault/Template.json
-  #       parameters: ./KeyVault/Parameters.json
+      # Ensures the Azure Resource Group exists before ARM deployment
+    - uses: azure/cli@v1
+      with:
+        inlineScript: |
+          #!/bin/bash
+          if $(az group exists --name ${{ secrets.AZURE_RG }}) ; then
+            echo "Azure resource group already exists, skipping creation..."
+          else
+            az group create --name ${{ env.AZURE_RG }} --location ${{ env.ResourceGroupLocation }}
+            echo "Azure resource group created"
+          fi
+      # Deploy ARM template for KeyVault
+    - name: Run ARM deploy for KeyVault
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ./KeyVault/Template.json
+        parameters: ./KeyVault/Parameters.json
 
-  #     # Deploy ARM template for Storage
-  #   - name: Run ARM deploy for Storage
-  #     uses: azure/arm-deploy@v1
-  #     with:
-  #       subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-  #       resourceGroupName: ${{ secrets.AZURE_RG }}
-  #       template: ./Storage/Template.json
-  #       parameters: ./Storage/Parameters.json
+      # Deploy ARM template for Storage
+    - name: Run ARM deploy for Storage
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ./Storage/Template.json
+        parameters: ./Storage/Parameters.json
       
-  #     # Deploy ARM template for Synapse
-  #   - name: Run ARM deploy for Synapse
-  #     uses: azure/arm-deploy@v1
-  #     with:
-  #       subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
-  #       resourceGroupName: ${{ secrets.AZURE_RG }}
-  #       template: ./Synapse/Workspace/Template.json
-  #       parameters: ./Synapse/Workspace/Parameters.json
+      # Deploy ARM template for Synapse
+    - name: Run ARM deploy for Synapse
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ./Synapse/Workspace/Template.json
+        parameters: ./Synapse/Workspace/Parameters.json
 
-  #     # Deploy Artifacts for Synapse Workspace 
-  #   - name: Run Synapse Workspace artifacts deploy
-  #     uses: azure/synapse-workspace-deployment@v0.1
-  #     with:
-  #       TargetWorkspaceName: synapse-test-actions
-  #       TemplateFile: Synapse/Resources/Template.json
-  #       ParametersFile: Synapse/Resources/Parameters.json
-  #       environment: Azure Public
-  #       resourceGroup: ${{ secrets.AZURE_RG }}
-  #       clientId: ${{ secrets.AZURE_CLIENTID }}
-  #       clientSecret: ${{ secrets.AZURE_CLIENTSECRET }}
-  #       subscriptionId: ${{ secrets.AZURE_SUBID }}
-  #       tenantId: ${{ secrets.AZURE_TENANTID }}
-  #       activeDirectoryEndpointUrl: ${{ secrets.AZURE_ADE }}
-  #       resourceManagerEndpointUrl: ${{ secrets.AZURE_RME }}
+      # Deploy Artifacts for Synapse Workspace 
+    - name: Run Synapse Workspace artifacts deploy
+      uses: azure/synapse-workspace-deployment@v0.1
+      with:
+        TargetWorkspaceName: synapse-test-actions
+        TemplateFile: Synapse/Resources/Template.json
+        ParametersFile: Synapse/Resources/Parameters.json
+        environment: Azure Public
+        resourceGroup: ${{ secrets.AZURE_RG }}
+        clientId: ${{ secrets.AZURE_CLIENTID }}
+        clientSecret: ${{ secrets.AZURE_CLIENTSECRET }}
+        subscriptionId: ${{ secrets.AZURE_SUBID }}
+        tenantId: ${{ secrets.AZURE_TENANTID }}
+        activeDirectoryEndpointUrl: ${{ secrets.AZURE_ADE }}
+        resourceManagerEndpointUrl: ${{ secrets.AZURE_RME }}
 
   configure:
-    # needs: deploy
+    needs: deploy
     runs-on: ubuntu-latest
     steps:
       # Log into Azure
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-        # enable-AzPSSession: true
+        enable-AzPSSession: true
 
       # Configure KeyVault access policy
-    # - name: Run Azure PowerShell script
-    #   uses: azure/powershell@v1
-    #   with:
-    #     inlineScript: |
-    #       Install-Module -Name Az.Synapse -Scope CurrentUser -Repository PSGallery -Force
-
-    #       $workspaceObjectId = (Get-AzADServicePrincipal -DisplayName synapse-test-actions).Id
-
-    #       Write-Host "Assigning Storage Blob Data Contributor Role to Synapse Workspace"
-    #       if (-not (Get-AzRoleAssignment -ObjectId $workspaceObjectId).RoleDefinitionName -Contains "Storage Blob Data Contributor") {
-    #         New-AzRoleAssignment `
-    #           -ObjectId $workspaceObjectId `
-    #           -RoleDefinitionName "Storage Blob Data Contributor" `
-    #           -Scope "/subscriptions/${{ secrets.AZURE_SUBID }}/resourceGroups/${{ secrets.AZURE_RG }}/providers/Microsoft.Storage/storageAccounts/sttestactions"
-    #       }
-
-    #       Write-Host "Setting KeyVault Access Policy for Synapse Workspace"
-    #       Set-AzKeyVaultAccessPolicy `
-    #         -VaultName kv-test-actions `
-    #         -ObjectId $workspaceObjectId `
-    #         -PermissionsToSecrets get,list
-
-    #       Write-Host "Setting Synapse Workspace Access Policy for Security Group"
-    #       New-AzSynapseRoleAssignment `
-    #           -WorkspaceName synapse-test-actions `
-    #           -RoleDefinitionName "Synapse Administrator" `
-    #           -ObjectId ${{ secrets.AZURE_CLIENTID }}
-    #     azPSVersion: 'latest'
-
-    - name: Checkout
-      uses: actions/checkout@v1
-
-    - uses: azure/cli@v1
+    - name: Run Azure PowerShell script
+      uses: azure/powershell@v1
       with:
         inlineScript: |
-          chmod +x $GITHUB_WORKSPACE/config.sh
-          $GITHUB_WORKSPACE/config.sh
+          Install-Module -Name Az.Synapse -Scope CurrentUser -Repository PSGallery -Force
+
+          $workspaceObjectId = (Get-AzADServicePrincipal -DisplayName synapse-test-actions).Id
+
+          Write-Host "Assigning Storage Blob Data Contributor Role to Synapse Workspace"
+          if (-not (Get-AzRoleAssignment -ObjectId $workspaceObjectId).RoleDefinitionName -Contains "Storage Blob Data Contributor") {
+            New-AzRoleAssignment `
+              -ObjectId $workspaceObjectId `
+              -RoleDefinitionName "Storage Blob Data Contributor" `
+              -Scope "/subscriptions/${{ secrets.AZURE_SUBID }}/resourceGroups/${{ secrets.AZURE_RG }}/providers/Microsoft.Storage/storageAccounts/sttestactions"
+          }
+
+          Write-Host "Setting KeyVault Access Policy for Synapse Workspace"
+          Set-AzKeyVaultAccessPolicy `
+            -VaultName kv-test-actions `
+            -ObjectId $workspaceObjectId `
+            -PermissionsToSecrets get,list
+
+          Write-Host "Setting Synapse Workspace Access Policy for Security Group"
+          New-AzSynapseRoleAssignment `
+              -WorkspaceName synapse-test-actions `
+              -RoleDefinitionName "Synapse Administrator" `
+              -ObjectId ${{ secrets.AZURE_CLIENTID }}
+        azPSVersion: 'latest'
