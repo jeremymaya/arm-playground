@@ -142,6 +142,6 @@ jobs:
       with:
         inlineScript: |
           az synapse role assignment create \
-            --workspace-name testsynapseworkspace \
+            --workspace-name synapse-test-actions \
             --role "Synapse Administrator" \
-            --assignee sp_name
+            --assignee ${{ secrets.AZURE_CLIENTID }}
