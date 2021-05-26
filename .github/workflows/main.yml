@@ -120,6 +120,6 @@ jobs:
       with:
         inlineScript: |
           Get-AzADApplication
-          $workspaceObjectId = Get-AzADApplication
+          Get-AzADServicePrincipal
           Write-Host "Hello"
         azPSVersion: 'latest'
