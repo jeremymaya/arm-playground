@@ -119,6 +119,15 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
+          function Add-SecretToKeyVault($resourceGroupName, $databaseAccountName, $keyVaultName) {
+            $cosmosDB = Get-AzCosmosDBAccount  -ResourceGroupName $resourceGroupName -Name $databaseAccountName
+            $connectionString = Get-AzCosmosDBAccountKey -ResourceGroupName $resourceGroupName -Name $databaseAccountName -Type "ConnectionStrings"
+            $connectionStringToDatabase = $connectionString + "Database=playground;"
+            $secretValue = ConvertTo-SecureString $connectionStringToDatabase.'Primary SQL Connection String' -AsPlainText -Force
+            $secretName = $cosmosDB.Name + "-cosmosdb-r-key"
+            $secret = Set-AzKeyVaultSecret -VaultName $keyVaultName -Name $secretName -SecretValue $secretValue
+          }
+
           $workspaceObjectId = (Get-AzADServicePrincipal -DisplayName synapse-test-actions).Id
 
           Write-Host "Assigning Storage Blob Data Contributor Role to Synapse Workspace"
@@ -133,5 +142,11 @@ jobs:
           Set-AzKeyVaultAccessPolicy `
             -VaultName kv-test-actions `
             -ObjectId $workspaceObjectId `
-            -PermissionsToSecrets get,list         
+            -PermissionsToSecrets get,list
+
+          Write-Host "Adding CosmosDB Connection String to KeyVault"
+          Add-SecretToKeyVault `
+              -resourceGroupName ${{ secrets.AZURE_RG }} `
+              -databaseAccountName cosmosdb-test-devops `
+              -keyVaultName kv-test-actions
         azPSVersion: 'latest'
