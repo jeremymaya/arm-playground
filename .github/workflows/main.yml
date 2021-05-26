@@ -1,4 +1,8 @@
-on: [push]
+on:
+  push:
+    branches:
+      - main
+
 name: Azure ARM
 jobs:
   build:
@@ -55,7 +59,6 @@ jobs:
             az group create --name ${{ env.AZURE_RG }} --location ${{ env.ResourceGroupLocation }}
             echo "Azure resource group created"
           fi
-
       # Deploy ARM template for KeyVault
     - name: Run ARM deploy for KeyVault
       uses: azure/arm-deploy@v1
@@ -98,3 +101,43 @@ jobs:
         tenantId: ${{ secrets.AZURE_TENANTID }}
         activeDirectoryEndpointUrl: ${{ secrets.AZURE_ADE }}
         resourceManagerEndpointUrl: ${{ secrets.AZURE_RME }}
+
+  configure:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      # Log into Azure
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        enable-AzPSSession: true
+
+      # Configure KeyVault access policy
+    - name: Run Azure PowerShell script
+      uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          Install-Module -Name Az.Synapse -Scope CurrentUser -Repository PSGallery -Force
+
+          $workspaceObjectId = (Get-AzADServicePrincipal -DisplayName synapse-test-actions).Id
+
+          Write-Host "Assigning Storage Blob Data Contributor Role to Synapse Workspace"
+          if (-not (Get-AzRoleAssignment -ObjectId $workspaceObjectId).RoleDefinitionName -Contains "Storage Blob Data Contributor") {
+            New-AzRoleAssignment `
+              -ObjectId $workspaceObjectId `
+              -RoleDefinitionName "Storage Blob Data Contributor" `
+              -Scope "/subscriptions/${{ secrets.AZURE_SUBID }}/resourceGroups/${{ secrets.AZURE_RG }}/providers/Microsoft.Storage/storageAccounts/sttestactions"
+          }
+
+          Write-Host "Setting KeyVault Access Policy for Synapse Workspace"
+          Set-AzKeyVaultAccessPolicy `
+            -VaultName kv-test-actions `
+            -ObjectId $workspaceObjectId `
+            -PermissionsToSecrets get,list
+
+          Write-Host "Setting Synapse Workspace Access Policy for Security Group"
+          New-AzSynapseRoleAssignment `
+              -WorkspaceName synapse-test-actions `
+              -RoleDefinitionName "Synapse Administrator" `
+              -ObjectId ${{ secrets.AZURE_CLIENTID }}
+        azPSVersion: 'latest'
