@@ -59,6 +59,16 @@ jobs:
             az group create --name ${{ env.AZURE_RG }} --location ${{ env.ResourceGroupLocation }}
             echo "Azure resource group created"
           fi
+
+      # Deploy ARM template for Network Security Group
+    - name: Run ARM deploy for Network Security Group
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        resourceGroupName: ${{ secrets.AZURE_RG }}
+        template: ./NetworkSecurityGroup/Template.json
+        parameters: ./NetworkSecurityGroup/Parameters.json
+
       # Deploy ARM template for KeyVault
     - name: Run ARM deploy for KeyVault
       uses: azure/arm-deploy@v1
