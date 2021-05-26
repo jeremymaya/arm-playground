@@ -120,6 +120,5 @@ jobs:
       with:
         inlineScript: |
           Write-Host "Hello"
-          Set-AzContext -SubscriptionId ${{ secrets.AZURE_SUBID }}
-          Get-AzRoleAssignment -ResourceGroupName ${{ secrets.AZURE_RG }}
+          Get-AzContext
         azPSVersion: '3.1.0'
