@@ -135,7 +135,8 @@ jobs:
             Start-AzSynapseTrigger `
               -WorkspaceName synapse-test-actions `
               -Name $trigger.Name
-
+          }
+          
           # if ("stage" -eq "build") {
           #   foreach ($trigger in $triggers) {
           #     Stop-AzSynapseTrigger `
