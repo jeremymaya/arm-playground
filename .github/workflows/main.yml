@@ -132,7 +132,9 @@ jobs:
           $triggers = Get-AzSynapseTrigger -WorkspaceName synapse-test-actions
           
           foreach ($trigger in $triggers) {
-            Write-Host $trigger.Name
+            Stop-AzSynapseTrigger `
+              -WorkspaceName synapse-test-actions `
+              -Name $trigger.Name 
           }
 
           # Write-Host "Retrieving Synapse Workspace ObjectId Based on Display Name"
