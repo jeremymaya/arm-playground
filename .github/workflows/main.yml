@@ -34,8 +34,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     env:
-      ResourceGroupLocation: "eastus"
-      Stage: "deploy"
+      ResourceGroupLocation: eastus
+      Stage: deploy
     steps:
       
       # Download artifact from the build stage instead of checking out code
@@ -70,7 +70,7 @@ jobs:
 
           $triggers = Get-AzSynapseTrigger -WorkspaceName synapse-test-actions
 
-          if (${{ env.Stage }} -eq "deploy") {
+          if (${{ env.Stage }} --match deploy) {
             foreach ($trigger in $triggers) {
               Stop-AzSynapseTrigger `
                 -WorkspaceName synapse-test-actions `
@@ -141,7 +141,7 @@ jobs:
     needs: deploy
     runs-on: ubuntu-latest
     env:
-      Stage: "configure"
+      Stage: configure
     steps:
       # Log into Azure
     - uses: azure/login@v1
@@ -158,7 +158,7 @@ jobs:
 
           $triggers = Get-AzSynapseTrigger -WorkspaceName synapse-test-actions
 
-          if (${{ env.Stage }} -eq "build") {
+          if (${{ env.Stage }} -match deploy) {
             foreach ($trigger in $triggers) {
               Stop-AzSynapseTrigger `
                 -WorkspaceName synapse-test-actions `
