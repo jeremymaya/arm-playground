@@ -129,8 +129,11 @@ jobs:
         inlineScript: |
           Install-Module -Name Az.Synapse -Scope CurrentUser -Repository PSGallery -Force
 
-          Get-AzSynapseTrigger `
-            -WorkspaceName synapse-test-actions
+          $triggers = Get-AzSynapseTrigger -WorkspaceName synapse-test-actions
+          
+          foreach ($trigger in $triggers) {
+            Write-Host $trigger.Name
+          }
 
           # Write-Host "Retrieving Synapse Workspace ObjectId Based on Display Name"
           # $workspaceObjectId = (Get-AzADServicePrincipal -DisplayName synapse-test-actions).Id
