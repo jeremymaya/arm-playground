@@ -70,7 +70,7 @@ jobs:
 
           $triggers = Get-AzSynapseTrigger -WorkspaceName synapse-test-actions
 
-          if (${{ env.Stage }} --match deploy) {
+          if (${{ env.Stage }} -match deploy) {
             foreach ($trigger in $triggers) {
               Stop-AzSynapseTrigger `
                 -WorkspaceName synapse-test-actions `
