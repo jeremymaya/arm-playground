@@ -83,6 +83,7 @@ jobs:
                 -Name $trigger.Name
             }
           }
+        azPSVersion: 'latest'
 
       # Deploy ARM template for Network Security Group
     - name: Run ARM deploy for Network Security Group
