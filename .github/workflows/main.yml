@@ -130,12 +130,24 @@ jobs:
           Install-Module -Name Az.Synapse -Scope CurrentUser -Repository PSGallery -Force
 
           $triggers = Get-AzSynapseTrigger -WorkspaceName synapse-test-actions
-          
+
           foreach ($trigger in $triggers) {
-            Stop-AzSynapseTrigger `
+            Start-AzSynapseTrigger `
               -WorkspaceName synapse-test-actions `
-              -Name $trigger.Name 
-          }
+              -Name $trigger.Name
+
+          # if (${{ stage }} -eq "build") {
+          #   foreach ($trigger in $triggers) {
+          #     Stop-AzSynapseTrigger `
+          #       -WorkspaceName synapse-test-actions `
+          #       -Name $trigger.Name 
+          #   }
+          # }else {
+          #   foreach ($trigger in $triggers) {
+          #     Start-AzSynapseTrigger `
+          #       -WorkspaceName synapse-test-actions `
+          #       -Name $trigger.Name
+          # }
 
           # Write-Host "Retrieving Synapse Workspace ObjectId Based on Display Name"
           # $workspaceObjectId = (Get-AzADServicePrincipal -DisplayName synapse-test-actions).Id
