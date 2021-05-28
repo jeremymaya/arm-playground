@@ -42,6 +42,8 @@ def generate_dependsOn(resource):
             resource_path = '/notebooks/{}'.format(resource_name)
         elif resource_name[0:2] == 'pl':
             resource_path = '/pipelines/{}'.format(resource_name)
+        elif resource_name[0:2] == 'tr':
+            resource_path = '/triggers/{}'.format(resource_name)
         elif resource_name[0:4] == 'Auto':
             resource_path = '/integrationRuntimes/{}'.format(resource_name)
         elif resource_name[0:7] == 'synapse':
@@ -60,6 +62,8 @@ def generate_resource_type(resource_name):
         return 'Microsoft.Synapse/workspaces/notebooks'
     if resource_name[0:2] == 'pl':
         return 'Microsoft.Synapse/workspaces/pipelines'
+    if resource_name[0:2] == 'tr':
+        return 'Microsoft.Synapse/workspaces/triggers'
     elif resource_name[0:7] == 'synapse':
         return 'Microsoft.Synapse/workspaces/linkedServices'
     else:
