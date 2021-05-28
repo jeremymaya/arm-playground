@@ -34,8 +34,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     env:
-      ResourceGroupLocation: eastus
-      Stage: deploy
+      ResourceGroupLocation: "eastus"
+      Stage: "deploy"
     steps:
       
       # Download artifact from the build stage instead of checking out code
@@ -70,7 +70,7 @@ jobs:
 
           $triggers = Get-AzSynapseTrigger -WorkspaceName synapse-test-actions
 
-          if (${{ env.Stage }} -eq "build") {
+          if (${{ env.Stage }} -eq "deploy") {
             foreach ($trigger in $triggers) {
               Stop-AzSynapseTrigger `
                 -WorkspaceName synapse-test-actions `
