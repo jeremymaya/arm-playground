@@ -7,4 +7,4 @@
 echo "Running az synpase trigger list command..."
 az synapse trigger list --workspace-name synapse-test-actions
 
-az synapse trigger list --workspace-name synapse-test-actions --query name -o json
+az synapse trigger list --workspace-name synapse-test-actions --query 'name' -o json
