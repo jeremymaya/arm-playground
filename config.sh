@@ -7,6 +7,11 @@
 echo "Running az synpase trigger list command..."
 az synapse trigger list --workspace-name synapse-test-actions
 
-triggers=az synapse trigger list --workspace-name synapse-test-actions
+value=az synapse trigger list --workspace-name synapse-test-actions
 
-echo $triggers | tr '"' '\n' | grep name
+triggers=($(echo $value | tr '"' '\n' | grep tr))
+
+for trigger in ${triggers[@]}
+do
+    echo $trigger
+done
