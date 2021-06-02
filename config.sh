@@ -1,13 +1,12 @@
 #!/bin/bash
 
+STAGE=$1
+
 echo "Running az synpase trigger list command..."
 triggers=$(az synapse trigger list --workspace-name synapse-test-actions --query '[].name' -o tsv)
 
-echo "stage: $1"
-
-for trigger in "${triggers[@]}"
-do
-    if [[ $1 == "build" ]]; then
+for trigger in $triggers; do
+    if [[ $STAGE == "build" ]]; then
     echo "Stopping trigger ${trigger}..."
     az synapse trigger stop --workspace-name synapse-test-actions --name $trigger
     else
