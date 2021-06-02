@@ -7,6 +7,8 @@
 echo "Running az synpase trigger list command..."
 triggers = az synapse trigger list --workspace-name synapse-test-actions
 
+echo $triggers
+
 for trigger in $triggers
 do
     echo $trigger.name
