@@ -24,7 +24,7 @@
         }
     },
     "variables": {
-        "storageAccountName": "sttestactions"
+        "storageAccountName": "sttestshare"
     },
     "resources": [
         {

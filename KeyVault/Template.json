@@ -24,7 +24,7 @@
     },
     "resources": [
         {
-            "name": "kv-test-actions",
+            "name": "kv-test-share",
             "type": "Microsoft.KeyVault/vaults",
             "apiVersion": "2019-09-01",
             "location": "[parameters('location')]",

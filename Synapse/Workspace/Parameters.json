@@ -3,10 +3,10 @@
 	"contentVersion": "1.0.0.0",
 	"parameters": {
 		"workspaceName": {
-			"value": "synapse-test-actions"
+			"value": "synapse-test-share"
 		},
-		"synapse-test-actions-WorkspaceDefaultStorage_properties_typeProperties_url": {
-			"value": "https://sttestactions.dfs.core.windows.net"
+		"synapse-test-share-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"value": "https://sttestshare.dfs.core.windows.net"
 		}
 	}
 }

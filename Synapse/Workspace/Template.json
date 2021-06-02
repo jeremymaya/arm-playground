@@ -4,7 +4,7 @@
     "parameters": {
         "workspaceName": {
             "type": "string",
-            "defaultValue": "synapse-test-actions"
+            "defaultValue": "synapse-test-share"
         },
         "location": {
             "type": "string",
@@ -13,9 +13,9 @@
                 "description": "Location for all resources."
             }
         },
-        "synapse-test-actions-WorkspaceDefaultStorage_properties_typeProperties_url": {
+        "synapse-test-share-WorkspaceDefaultStorage_properties_typeProperties_url": {
             "type": "string",
-            "defaultValue": "https://sttestactions.dfs.core.windows.net"
+            "defaultValue": "https://sttestshare.dfs.core.windows.net"
         }
     },
     "resources": [
@@ -27,7 +27,7 @@
             "location": "[parameters('location')]",
             "properties": {
                 "defaultDataLakeStorage": {
-                    "accountUrl": "[parameters('synapse-test-actions-WorkspaceDefaultStorage_properties_typeProperties_url')]",
+                    "accountUrl": "[parameters('synapse-test-share-WorkspaceDefaultStorage_properties_typeProperties_url')]",
                     "filesystem": "[parameters('workspaceName')]"
                 }
             },
@@ -80,15 +80,6 @@
                 "dynamicExecutorAllocation": {
                     "enabled": true
                 }
-            }
-        },
-        {
-            "name": "[concat(parameters('workspaceName'), '/allowAll')]",
-            "type": "Microsoft.Synapse/workspaces/firewallRules",
-            "apiVersion": "2019-06-01-preview",
-            "properties": {
-                "endIpAddress": "255.255.255.255",
-                "startIpAddress": "0.0.0.0"
             }
         }
     ]
