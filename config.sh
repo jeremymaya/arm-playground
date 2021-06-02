@@ -5,7 +5,7 @@ triggers=$(az synapse trigger list --workspace-name synapse-test-actions --query
 
 for trigger in "${triggers[@]}"
 do
-    if [ stage == "build"]; then
+    if [[ stage == "build" ]]; then
     echo "Stopping trigger ${trigger}..."
     az synapse trigger stop --workspace-name synapse-test-actions --name $trigger
     else
