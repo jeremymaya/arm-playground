@@ -154,3 +154,4 @@ jobs:
             -ObjectId $workspaceObjectId `
             -PermissionsToSecrets get,list
         azPSVersion: 'latest'
+# change!
