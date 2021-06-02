@@ -7,8 +7,8 @@
 echo "Running az synpase trigger list command..."
 triggers=$(az synapse trigger list --workspace-name synapse-test-actions --query '[].name' -o tsv)
 
-echo "Printing the result..."
 for trigger in "${triggers[@]}"
 do
-   echo "$trigger"
+    echo "Stopping trigger ${trigger}..."
+    az synapse trigger stop --workspace-name synapse-test-actions --name $trigger
 done
