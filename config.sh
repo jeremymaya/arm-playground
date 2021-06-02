@@ -3,8 +3,7 @@
 echo "Running az synpase trigger list command..."
 triggers=$(az synapse trigger list --workspace-name synapse-test-actions --query '[].name' -o tsv)
 
-echo $1
-echo stage
+echo "stage: $1"
 
 for trigger in "${triggers[@]}"
 do
