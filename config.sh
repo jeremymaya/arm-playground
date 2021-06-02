@@ -11,4 +11,6 @@ for trigger in "${triggers[@]}"
 do
     echo "Stopping trigger ${trigger}..."
     az synapse trigger stop --workspace-name synapse-test-actions --name $trigger
+    echo "Starting trigger ${trigger}..."
+    az synapse trigger start --workspace-name synapse-test-actions --name $trigger
 done
