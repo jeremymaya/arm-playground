@@ -5,4 +5,8 @@
 # az role assignment list --assignee 'fdb798ab-987e-4e10-92d0-be511d22dcab'
 
 echo "Running az synpase trigger list command..."
-az synapse trigger list --workspace-name synapse-test-actions
+triggers = az synapse trigger list --workspace-name synapse-test-actions
+
+foreach trigger ($triggers)
+    echo $trigger.name
+end
